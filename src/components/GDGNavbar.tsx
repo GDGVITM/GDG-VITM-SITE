@@ -20,13 +20,13 @@ export default function GDGNavbar() {
   ];
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${isScrolled ? 'py-4' : 'py-8'}`}>
+    <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${isScrolled ? 'py-3' : 'py-5'}`}>
       <div className="max-w-[1440px] mx-auto px-6 md:px-[60px]">
         <motion.div
           layout
           className={`relative flex items-center justify-between px-8 py-4 rounded-3xl border transition-all duration-500 ${isScrolled
-              ? 'bg-white/80 backdrop-blur-xl border-gray-200/50 shadow-[0_8px_32px_rgba(0,0,0,0.04)]'
-              : 'bg-transparent border-transparent'
+            ? 'bg-white/80 backdrop-blur-xl border-gray-200/50 shadow-[0_8px_32px_rgba(0,0,0,0.04)]'
+            : 'bg-transparent border-transparent'
             }`}
         >
           {/* Left: Logo */}

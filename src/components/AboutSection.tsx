@@ -9,18 +9,21 @@ const stats = [
 
 export default function AboutSection() {
     return (
-        <section className="relative w-full bg-[#F2F3F5] bg-grid-pattern py-[100px] md:py-[160px] overflow-hidden">
-            <div className="max-w-[1400px] mx-auto px-6 md:px-[60px]">
+        // Static background wrapper so it seamlessly blends.
+        <section id="about-section" className="relative w-full bg-[#F8F9FA] bg-grid-pattern py-[100px] md:py-[160px] overflow-hidden">
+            
+            {/* Animate the CONTENT inside, not the background wrapper */}
+            <motion.div 
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }} // Triggers when 20% visible
+                transition={{ duration: 1, ease: "easeOut" }}
+                className="max-w-[1400px] mx-auto px-6 md:px-[60px]"
+            >
                 <div className="flex flex-col md:flex-row gap-16 md:gap-24 items-start">
 
                     {/* ── Left column ── */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                        className="flex-1 flex flex-col justify-center"
-                    >
+                    <div className="flex-1 flex flex-col justify-center">
                         <span className="inline-block text-[11px] font-bold tracking-[0.22em] text-[#B6FF00] uppercase mb-6">
                             ABOUT US
                         </span>
@@ -35,32 +38,20 @@ export default function AboutSection() {
                                 it's emotion
                             </motion.span>
                         </h2>
-                    </motion.div>
+                    </div>
 
                     {/* ── Right column ── */}
                     <div className="flex-1 flex flex-col lg:flex-row gap-8 items-stretch">
 
                         {/* Stats stack */}
-                        <motion.div
-                            initial="hidden"
-                            whileInView="show"
-                            viewport={{ once: true }}
-                            variants={{
-                                hidden: { opacity: 0 },
-                                show: {
-                                    opacity: 1,
-                                    transition: { staggerChildren: 0.1, delayChildren: 0.2 }
-                                }
-                            }}
-                            className="flex flex-col gap-4 flex-1"
-                        >
+                        <div className="flex flex-col gap-4 flex-1">
                             {stats.map((s, i) => (
                                 <motion.div
                                     key={i}
-                                    variants={{
-                                        hidden: { opacity: 0, y: 20 },
-                                        show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
-                                    }}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 10, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
                                     whileHover={{ y: -5, scale: 1.02, transition: { type: 'spring', stiffness: 400, damping: 10 } }}
                                     className="group bg-white/70 backdrop-blur-sm border border-gray-200/80 rounded-2xl px-8 py-6 flex items-center gap-6 shadow-sm hover:shadow-xl hover:bg-white transition-all duration-300"
                                 >
@@ -73,14 +64,14 @@ export default function AboutSection() {
                                     </div>
                                 </motion.div>
                             ))}
-                        </motion.div>
+                        </div>
 
                         {/* Image placeholder */}
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                            transition={{ duration: 10, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
                             className="flex-shrink-0 w-full lg:w-[240px] min-h-[320px] rounded-3xl bg-gray-200/80 border border-gray-300/60 overflow-hidden relative group"
                         >
                             <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent group-hover:opacity-0 transition-opacity duration-700" />
@@ -95,7 +86,7 @@ export default function AboutSection() {
 
                     </div>
                 </div>
-            </div>
+            </motion.div>
         </section>
     );
 }
