@@ -32,7 +32,7 @@ export default function Footer() {
     const handleTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
     return (
-        <footer className="relative w-full bg-black bg-grid-pattern border-t border-white/5 overflow-hidden">
+        <footer className="relative w-full bg-[#050505] border-t border-white/5 overflow-hidden">
             <PixelCorner pos="tl" />
             <PixelCorner pos="br" />
 
@@ -53,7 +53,7 @@ export default function Footer() {
                     >
                         <div className="flex items-baseline gap-2 justify-center md:justify-start">
                             <h2 className="text-[56px] md:text-[80px] font-black tracking-tighter leading-none text-white">GDG.</h2>
-                            <span className="text-[#B6FF00] text-3xl font-black">TM</span>
+                            <span className="text-[#B6FF00] text-3xl font-black">VITM</span>
                         </div>
                         <p className="text-[15px] md:text-[16px] text-white/40 font-medium leading-relaxed">
                             Empowering the student developer community at Vidyalankar Institute of Technology through innovation, collaboration, and design excellence.

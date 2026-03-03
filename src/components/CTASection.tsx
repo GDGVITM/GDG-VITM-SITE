@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
+import MinecraftMountains from './MinecraftMountains';
 
 function PixelBlock({ className, delay }: { className: string, delay: number }) {
     return (
@@ -29,11 +30,12 @@ function PixelBlock({ className, delay }: { className: string, delay: number }) 
 
 export default function CTASection() {
     return (
-        <section className="relative w-full bg-black bg-grid-pattern py-[120px] md:py-[200px] overflow-hidden flex items-center justify-center">
+        <section id="cta-section" className="relative w-full bg-transparent bg-grid-pattern min-h-screen overflow-hidden flex items-center justify-center">
 
-            {/* Decorative pixel blocks */}
-            <PixelBlock className="absolute bottom-0 left-0 z-0" delay={0.2} />
-            <PixelBlock className="absolute bottom-0 right-0 z-0 scale-x-[-1]" delay={0.4} />
+            {/* Decorative pixel blocks & Mountains */}
+            <MinecraftMountains />
+            <PixelBlock className="absolute bottom-0 left-0 z-10" delay={0.2} />
+            <PixelBlock className="absolute bottom-0 right-0 z-10 scale-x-[-1]" delay={0.4} />
 
             {/* Pulsating circles behind text */}
             <motion.div
@@ -48,7 +50,7 @@ export default function CTASection() {
             />
 
             {/* Content */}
-            <div className="relative z-10 text-center px-6 max-w-[1000px] mx-auto">
+            <div className="relative z-20 text-center px-6 max-w-[1000px] mx-auto">
 
                 {/* Animated arrow row - top */}
                 <motion.div
@@ -124,7 +126,7 @@ export default function CTASection() {
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     transition={{ duration: 1 }}
-                    className="flex items-center justify-center gap-3 mt-14"
+                    className="flex items-center justify-center gap-3 mt-6 sm:mt-8 md:mt-10"
                 >
                     {[...Array(8)].map((_, i) => (
                         <motion.div

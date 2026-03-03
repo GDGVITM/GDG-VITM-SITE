@@ -10,7 +10,7 @@ const stats = [
 export default function AboutSection() {
     return (
         // Static background wrapper so it seamlessly blends.
-        <section id="about-section" className="relative w-full bg-black bg-grid-pattern py-[50px] md:py-[160px] overflow-hidden">
+        <section id="about-section" className="relative w-full bg-transparent bg-grid-pattern py-[50px] md:py-[160px] overflow-hidden">
 
             {/* Animate the CONTENT inside, not the background wrapper */}
             <motion.div

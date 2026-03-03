@@ -5,7 +5,7 @@ export default function TrustedStrip() {
     return (
         // Static background wrapper so it seamlessly blends with the Hero canvas.
         // REMOVED borders.
-        <section id="trusted-strip" className="relative w-full bg-black bg-grid-pattern overflow-hidden">
+        <section id="trusted-strip" className="relative w-full bg-transparent bg-grid-pattern overflow-hidden">
 
             {/* Animate the CONTENT inside, not the background wrapper */}
             <motion.div

@@ -44,7 +44,7 @@ export default function TeamSection() {
     const displayMembers = members;
 
     return (
-        <section className="relative w-full bg-black bg-grid-pattern py-24 md:py-40 overflow-hidden">
+        <section id="team-section" className="relative w-full bg-transparent bg-grid-pattern py-24 md:py-40 overflow-hidden">
             <div className="max-w-[1440px] mx-auto px-6 md:px-[60px]">
 
                 {/* Heading */}

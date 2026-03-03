@@ -29,7 +29,7 @@ export default function FAQSection() {
     const [open, setOpen] = useState<number | null>(null);
 
     return (
-        <section className="relative w-full bg-black bg-grid-pattern py-[100px] md:py-[160px] overflow-hidden">
+        <section className="relative w-full bg-transparent bg-grid-pattern py-[100px] md:py-[160px] overflow-hidden">
             <div className="max-w-[860px] mx-auto px-6 md:px-[60px]">
 
                 {/* Heading */}

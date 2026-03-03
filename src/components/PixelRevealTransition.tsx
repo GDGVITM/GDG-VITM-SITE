@@ -105,7 +105,7 @@ export default function PixelRevealTransition({ triggerRef }: PixelRevealTransit
                 duration: 1 // Spans 100% of the scroll timeline
             }, 0);
 
-            mainTl.fromTo("#scrolling-content",
+            mainTl.fromTo("#page-content",
                 { opacity: 0, y: 50 },
                 { opacity: 1, y: 0, ease: "none", duration: 0.4 },
                 0.6 // Starts exactly as the pixels cover the Hero
@@ -127,7 +127,7 @@ export default function PixelRevealTransition({ triggerRef }: PixelRevealTransit
     }, [triggerRef]);
 
     return (
-        <div className="absolute inset-0 z-30 pointer-events-none overflow-hidden">
+        <div className="absolute inset-0 z-[20] pointer-events-none overflow-hidden">
             <canvas ref={canvasRef} className="w-full h-full" />
         </div>
     );

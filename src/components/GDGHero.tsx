@@ -1,10 +1,63 @@
 import React from 'react';
 import { motion } from 'motion/react';
+
 import { ChevronRight, ChevronLeft } from 'lucide-react';
+
+const MinecraftSun = () => (
+  <motion.div
+    initial={{ opacity: 0, scale: 0.5, rotate: 10 }}
+    animate={{ opacity: 1, scale: 1, rotate: 0 }}
+    transition={{ duration: 1.5, ease: "easeOut" }}
+    className="absolute top-[12%] right-[15%] w-20 h-20 sm:w-28 sm:h-28 bg-[#FFD700] shadow-[0_0_80px_rgba(255,215,0,0.4)] z-0 border-4 border-yellow-400/20"
+  />
+);
+
+const MinecraftCloud = ({ delay, top, opacity = 0.6, duration = 80, scale = 1 }: { delay: number; top: string; opacity?: number; duration?: number; scale?: number }) => (
+  <motion.div
+    initial={{ x: "120vw" }}
+    animate={{ x: "-120vw" }}
+    transition={{ duration, repeat: Infinity, delay, ease: "linear" }}
+    style={{ top, opacity, scale }}
+    className="absolute z-0 pointer-events-none"
+  >
+    <div className="flex flex-col gap-0">
+      <div className="flex">
+        <div className="w-16 h-10 bg-slate-300" />
+        <div className="w-20 h-12 bg-slate-200 -mt-2" />
+        <div className="w-14 h-10 bg-slate-300" />
+      </div>
+      <div className="flex -mt-4 ml-8">
+        <div className="w-24 h-12 bg-slate-200" />
+        <div className="w-16 h-10 bg-slate-300" />
+      </div>
+    </div>
+  </motion.div>
+);
 
 export default function Hero() {
   return (
     <div className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#F8F9FA] bg-grid-pattern pt-14 sm:pt-16 md:pt-20">
+
+      {/* ── Minecraft Elements ── */}
+      <MinecraftSun />
+      {/* High altitude, small, slow clouds */}
+      <MinecraftCloud delay={0} top="10%" opacity={0.1} duration={160} scale={0.6} />
+      <MinecraftCloud delay={40} top="15%" opacity={0.15} duration={140} scale={0.7} />
+      <MinecraftCloud delay={80} top="12%" opacity={0.12} duration={150} scale={0.5} />
+
+      {/* Mid altitude clouds */}
+      <MinecraftCloud delay={20} top="25%" opacity={0.3} duration={100} scale={1} />
+      <MinecraftCloud delay={55} top="35%" opacity={0.25} duration={110} scale={0.9} />
+      <MinecraftCloud delay={10} top="45%" opacity={0.2} duration={130} scale={1.1} />
+      <MinecraftCloud delay={75} top="30%" opacity={0.35} duration={95} scale={0.8} />
+
+      {/* Lower, larger clouds */}
+      <MinecraftCloud delay={30} top="55%" opacity={0.4} duration={80} scale={1.3} />
+      <MinecraftCloud delay={65} top="65%" opacity={0.3} duration={90} scale={1.2} />
+      <MinecraftCloud delay={5} top="50%" opacity={0.25} duration={115} scale={1.4} />
+      <MinecraftCloud delay={45} top="70%" opacity={0.2} duration={105} scale={1.1} />
+      <MinecraftCloud delay={90} top="60%" opacity={0.3} duration={85} scale={1.5} />
+      <MinecraftCloud delay={15} top="20%" opacity={0.4} duration={70} scale={0.9} />
 
       <div id="hero-content" className="relative w-full flex flex-col items-center justify-center flex-1 py-6 sm:py-10 -mt-12 sm:-mt-16 md:-mt-20">
 
