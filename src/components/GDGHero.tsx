@@ -93,11 +93,15 @@ export default function Hero() {
         </div>
 
         {/* Footer Text */}
-        <p className="mt-20 md:mt-32 text-center text-[14px] md:text-[16px] font-medium text-black/70 max-w-[500px] leading-relaxed">
+        <p className="mt-20 md:mt-32 mb-10 text-center text-[14px] md:text-[16px] font-medium text-black/70 max-w-[500px] leading-relaxed">
           We turn ideas into timeless digital experiences through thoughtful strategy and refined aesthetics.
         </p>
 
+  
       </div>
+      {/* Add this inside the main container of GDGHero, at the very bottom */}
+<div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-black to-transparent z-20" />
     </div>
+    
   );
 }

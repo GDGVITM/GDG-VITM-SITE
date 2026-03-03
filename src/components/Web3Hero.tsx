@@ -1,9 +1,20 @@
 import React from 'react';
+import { motion } from 'framer-motion';  
 
 export default function Web3Hero() {
   return (
-    <div className="relative w-full min-h-[150vh] flex flex-col items-center justify-start overflow-hidden bg-black">
+    
+    <motion.div 
+       
+      initial={{ opacity: 0, y: 100 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      className="relative w-full min-h-[150vh] flex flex-col items-center justify-start overflow-hidden bg-black"
+    >
       {/* Background Video */}
+      {/* Add this inside the main container of Web3Hero, at the very top */}
+<div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-black to-transparent z-20 pointer-events-none" />
       <div className="absolute inset-0 z-0">
         <video
           autoPlay
@@ -14,12 +25,17 @@ export default function Web3Hero() {
         >
           <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260217_030345_246c0224-10a4-422c-b324-070b7c0eceda.mp4" type="video/mp4" />
         </video>
-        {/* Overlay */}
         <div className="absolute inset-0 bg-black/10" />
       </div>
 
       {/* Content Container */}
-      <div className="relative z-10 w-full max-w-[1200px] px-6 flex flex-col items-center pt-[200px] md:pt-[280px] pb-[102px]">
+      <motion.div 
+        
+        initial={{ opacity: 0, scale: 0.9 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.2, duration: 0.6 }}
+        className="relative z-10 w-full max-w-[1200px] px-6 flex flex-col items-center pt-[200px] md:pt-[280px] pb-[102px]"
+      >
 
         {/* Badge */}
         <div className="mb-10 inline-flex items-center gap-2 px-4 py-1.5 rounded-[20px] bg-white/10 border border-white/20 backdrop-blur-sm">
@@ -37,7 +53,7 @@ export default function Web3Hero() {
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
-            color: 'transparent' // Fallback
+            color: 'transparent' 
           }}
         >
           Web3 at the Speed of Experience
@@ -49,17 +65,14 @@ export default function Web3Hero() {
         </p>
 
         {/* CTA Button */}
-        <button className="relative group rounded-full p-[0.6px] bg-white overflow-hidden">
-          {/* Glow effect container */}
+        <button className="relative group rounded-full p-[0.6px] bg-white overflow-hidden transition-transform active:scale-95">
           <div className="absolute inset-x-0 top-0 h-[10px] bg-gradient-to-b from-white to-transparent opacity-50 blur-[4px] group-hover:opacity-80 transition-opacity" />
-
-          {/* Inner Button - White Background for Hero CTA */}
-          <div className="relative bg-white rounded-full px-[29px] py-[11px] flex items-center justify-center transition-transform active:scale-95">
+          <div className="relative bg-white rounded-full px-[29px] py-[11px] flex items-center justify-center">
             <span className="text-[14px] font-medium text-black">Join Waitlist</span>
           </div>
         </button>
 
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
