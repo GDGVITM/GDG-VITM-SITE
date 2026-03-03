@@ -24,15 +24,15 @@ function PixelCorner({ side }: { side: 'tl' | 'tr' }) {
         <div className={`absolute ${side === 'tl' ? '-top-1 -left-1' : '-top-1 -right-1'} flex flex-col pointer-events-none z-20`}>
             {side === 'tl' ? (
                 <div className="flex flex-col gap-0">
-                    <div className="flex"><div className="w-5 h-5 bg-[#F2F3F5]" /><div className="w-5 h-5 bg-gray-400/20" /></div>
-                    <div className="flex"><div className="w-5 h-5 bg-gray-400/20" /><div className="w-5 h-5 bg-gray-400/20" /><div className="w-5 h-5 bg-gray-400/20" /></div>
-                    <div className="flex gap-0"><div className="w-5 h-5 bg-transparent" /><div className="w-5 h-5 bg-gray-400/20" /><div className="w-5 h-5 bg-gray-400/20" /></div>
+                    <div className="flex"><div className="w-5 h-5 bg-black" /><div className="w-5 h-5 bg-white/5" /></div>
+                    <div className="flex"><div className="w-5 h-5 bg-white/5" /><div className="w-5 h-5 bg-white/5" /><div className="w-5 h-5 bg-white/5" /></div>
+                    <div className="flex gap-0"><div className="w-5 h-5 bg-transparent" /><div className="w-5 h-5 bg-white/5" /><div className="w-5 h-5 bg-white/10" /></div>
                 </div>
             ) : (
                 <div className="flex flex-col items-end gap-0">
-                    <div className="flex"><div className="w-5 h-5 bg-gray-400/20" /><div className="w-5 h-5 bg-[#F2F3F5]" /></div>
-                    <div className="flex"><div className="w-5 h-5 bg-gray-400/20" /><div className="w-5 h-5 bg-gray-400/20" /><div className="w-5 h-5 bg-gray-400/20" /></div>
-                    <div className="flex gap-0"><div className="w-5 h-5 bg-gray-400/20" /><div className="w-5 h-5 bg-gray-400/20" /><div className="w-5 h-5 bg-transparent" /></div>
+                    <div className="flex"><div className="w-5 h-5 bg-white/5" /><div className="w-5 h-5 bg-black" /></div>
+                    <div className="flex"><div className="w-5 h-5 bg-white/5" /><div className="w-5 h-5 bg-white/5" /><div className="w-5 h-5 bg-white/5" /></div>
+                    <div className="flex gap-0"><div className="w-5 h-5 bg-white/10" /><div className="w-5 h-5 bg-white/5" /><div className="w-5 h-5 bg-transparent" /></div>
                 </div>
             )}
         </div>
@@ -44,18 +44,18 @@ export default function TeamSection() {
     const displayMembers = members;
 
     return (
-        <section className="relative w-full bg-[#F2F3F5] bg-grid-pattern py-24 md:py-40 overflow-hidden">
+        <section className="relative w-full bg-black bg-grid-pattern py-24 md:py-40 overflow-hidden">
             <div className="max-w-[1440px] mx-auto px-6 md:px-[60px]">
 
                 {/* Heading */}
                 <div className="text-center mb-32">
                     <div className="flex items-center justify-center gap-2 mb-6">
                         <div className="w-3 h-3 bg-[#B6FF00]" />
-                        <span className="text-[12px] font-bold tracking-[0.25em] text-black uppercase">
+                        <span className="text-[12px] font-bold tracking-[0.25em] text-white uppercase">
                             TEAM MEMBERS
                         </span>
                     </div>
-                    <h2 className="text-[48px] md:text-[80px] font-extrabold tracking-tighter text-black leading-[1.05] mb-4">
+                    <h2 className="text-[48px] md:text-[80px] font-extrabold tracking-tighter text-white leading-[1.05] mb-4">
                         The Minds <br /> Behind the Work
                     </h2>
                 </div>
@@ -79,23 +79,23 @@ export default function TeamSection() {
                                 className={`group relative flex flex-col items-center ${desktopStagger ? 'lg:mt-16' : ''}`}
                             >
                                 {/* Main Grey Card (Image Placeholder) */}
-                                <div className="relative w-full aspect-[4/5] bg-gray-300 rounded-[40px] overflow-hidden shadow-inner group-hover:shadow-md transition-shadow">
+                                <div className="relative w-full aspect-[4/5] bg-white/5 rounded-[40px] overflow-hidden shadow-inner group-hover:shadow-md transition-shadow">
                                     <PixelCorner side={i % 2 === 0 ? 'tl' : 'tr'} />
-                                    <div className="absolute inset-0 bg-gradient-to-b from-black/5 to-transparent" />
-                                    <div className="w-full h-full flex items-center justify-center opacity-[0.05]">
-                                        <span className="text-6xl font-black italic">GDG</span>
+                                    <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent" />
+                                    <div className="w-full h-full flex items-center justify-center opacity-[0.1]">
+                                        <span className="text-6xl font-black italic text-white/20">GDG</span>
                                     </div>
                                 </div>
 
                                 {/* Floating Name Tag */}
-                                <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-[90%] bg-white rounded-[28px] p-6 shadow-[0_20px_40px_rgba(0,0,0,0.06)] flex flex-col items-center text-center z-10 border border-gray-100/50 group-hover:shadow-[0_30px_60px_rgba(0,0,0,0.12)] transition-all duration-500">
-                                    <h3 className="text-[20px] font-bold text-black tracking-tight">{m.name}</h3>
-                                    <p className="text-[13px] text-gray-400 font-semibold mt-0.5 tracking-wide">{m.role}</p>
+                                <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-[90%] bg-[#1A1C1F] rounded-[28px] p-6 shadow-[0_20px_40px_rgba(0,0,0,0.3)] flex flex-col items-center text-center z-10 border border-white/5 group-hover:shadow-[0_30px_60px_rgba(0,0,0,0.5)] transition-all duration-500">
+                                    <h3 className="text-[20px] font-bold text-white tracking-tight">{m.name}</h3>
+                                    <p className="text-[13px] text-white/40 font-semibold mt-0.5 tracking-wide">{m.role}</p>
 
                                     <div className="flex gap-2 mt-4">
                                         {[1, 2, 3].map((_, idx) => (
-                                            <div key={idx} className="w-9 h-9 bg-gray-50 border border-gray-100 rounded-xl flex items-center justify-center group/icon overflow-hidden transition-colors hover:bg-[#B6FF00]">
-                                                <div className="w-3.5 h-3.5 bg-black/10 group-hover/icon:bg-black transition-colors rounded-sm" />
+                                            <div key={idx} className="w-9 h-9 bg-white/5 border border-white/5 rounded-xl flex items-center justify-center group/icon overflow-hidden transition-colors hover:bg-[#B6FF00]">
+                                                <div className="w-3.5 h-3.5 bg-white/10 group-hover/icon:bg-black transition-colors rounded-sm" />
                                             </div>
                                         ))}
                                     </div>

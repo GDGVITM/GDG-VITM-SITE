@@ -6,7 +6,7 @@ const words = ['INNOVATIVE', 'VISIONARY', 'CREATIVE', 'KINETIC', 'MINIMAL', 'PRE
 
 export default function MarqueeSlider() {
     return (
-        <section className="relative w-full bg-[#F2F3F5] bg-grid-pattern border-t border-b border-gray-200/70 overflow-hidden py-16 md:py-24">
+        <section className="relative w-full bg-black bg-grid-pattern border-t border-b border-white/5 overflow-hidden py-16 md:py-24">
 
             {/* Ambient background glow */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-px bg-gradient-to-r from-transparent via-[#B6FF00]/20 to-transparent blur-xl pointer-events-none" />
@@ -25,7 +25,7 @@ export default function MarqueeSlider() {
                         <div key={groupIdx} className="flex items-center">
                             {words.map((word, i) => (
                                 <React.Fragment key={`${groupIdx}-${i}`}>
-                                    <span className="text-[72px] md:text-[120px] font-black tracking-tighter text-black/90 whitespace-nowrap px-6 md:px-12 flex items-center gap-4 group cursor-default">
+                                    <span className="text-[72px] md:text-[120px] font-black tracking-tighter text-white/90 whitespace-nowrap px-6 md:px-12 flex items-center gap-4 group cursor-default">
                                         <motion.span
                                             whileHover={{ scale: 1.05, color: '#B6FF00' }}
                                             transition={{ type: "spring", stiffness: 400, damping: 10 }}
@@ -50,8 +50,8 @@ export default function MarqueeSlider() {
             </div>
 
             {/* Glass overlays on edges */}
-            <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-[#F2F3F5] to-transparent z-10 pointer-events-none" />
-            <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-[#F2F3F5] to-transparent z-10 pointer-events-none" />
+            <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-black to-transparent z-10 pointer-events-none" />
+            <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-black to-transparent z-10 pointer-events-none" />
         </section>
     );
 }

@@ -29,7 +29,7 @@ function PixelBlock({ className, delay }: { className: string, delay: number }) 
 
 export default function CTASection() {
     return (
-        <section className="relative w-full bg-[#F2F3F5] bg-grid-pattern py-[120px] md:py-[200px] overflow-hidden flex items-center justify-center">
+        <section className="relative w-full bg-black bg-grid-pattern py-[120px] md:py-[200px] overflow-hidden flex items-center justify-center">
 
             {/* Decorative pixel blocks */}
             <PixelBlock className="absolute bottom-0 left-0 z-0" delay={0.2} />
@@ -63,7 +63,7 @@ export default function CTASection() {
                             animate={{ x: [-10, 0, -10], opacity: [0.1, 0.4, 0.1] }}
                             transition={{ duration: 2, repeat: Infinity, delay: i * 0.15 }}
                         >
-                            <ChevronLeft className="w-6 h-6 text-black/20" />
+                            <ChevronLeft className="w-6 h-6 text-white/20" />
                         </motion.div>
                     ))}
                 </motion.div>
@@ -74,11 +74,11 @@ export default function CTASection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                    className="text-[64px] md:text-[110px] font-black tracking-tighter leading-[0.9] text-black uppercase"
+                    className="text-[64px] md:text-[110px] font-black tracking-tighter leading-[0.9] text-white uppercase"
                 >
                     "Build.<br />
                     <motion.span
-                        initial={{ color: "#000" }}
+                        initial={{ color: "#fff" }}
                         whileInView={{ color: "#B6FF00" }}
                         transition={{ delay: 0.8, duration: 0.8 }}
                     >
@@ -91,7 +91,7 @@ export default function CTASection() {
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     transition={{ delay: 1, duration: 1 }}
-                    className="mt-10 text-[16px] md:text-[18px] font-medium text-black/50 leading-relaxed max-w-[600px] mx-auto"
+                    className="mt-10 text-[16px] md:text-[18px] font-medium text-white/50 leading-relaxed max-w-[600px] mx-auto"
                 >
                     We don't just write code. We craft digital experiences that move people and define the future.
                 </motion.p>
@@ -112,7 +112,7 @@ export default function CTASection() {
                             boxShadow: "0 0 40px rgba(182,255,0,0.4)"
                         }}
                         whileTap={{ scale: 0.95 }}
-                        className="inline-flex items-center gap-3 bg-black text-white text-[15px] font-black px-10 py-5 rounded-full transition-all duration-300 uppercase tracking-widest group"
+                        className="inline-flex items-center gap-3 bg-white text-black text-[15px] font-black px-10 py-5 rounded-full transition-all duration-300 uppercase tracking-widest group"
                     >
                         Get In Touch
                         <ChevronRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
@@ -132,7 +132,7 @@ export default function CTASection() {
                             animate={{ x: [0, 10, 0], opacity: [0.1, 0.4, 0.1] }}
                             transition={{ duration: 2, repeat: Infinity, delay: i * 0.15 }}
                         >
-                            <ChevronRight className="w-6 h-6 text-black/20" />
+                            <ChevronRight className="w-6 h-6 text-white/20" />
                         </motion.div>
                     ))}
                 </motion.div>

@@ -38,8 +38,8 @@ const fragmentShader = `
     // Bottom-to-Top pixel reveal
     float alpha = step(threshold, (1.0 - vUv.y) + h * 0.3);
     
-    // Color exactly matching #F8F9FA
-    vec3 color = vec3(0.9725, 0.9764, 0.9803); 
+    // Color exactly matching #000000 (Pure Black)
+    vec3 color = vec3(0.0, 0.0, 0.0); 
     
     gl_FragColor = vec4(color, alpha);
   }
@@ -92,7 +92,7 @@ export default function PixelRevealTransition({ triggerRef }: PixelRevealTransit
                 scrollTrigger: {
                     trigger: triggerRef.current,
                     start: "top top",
-                    end: "bottom bottom", 
+                    end: "bottom bottom",
                     scrub: true,
                 }
             });
@@ -105,9 +105,9 @@ export default function PixelRevealTransition({ triggerRef }: PixelRevealTransit
                 duration: 1 // Spans 100% of the scroll timeline
             }, 0);
 
-            mainTl.fromTo("#scrolling-content", 
-                { opacity: 0, y: 50 }, 
-                { opacity: 1, y: 0, ease: "none", duration: 0.4 }, 
+            mainTl.fromTo("#scrolling-content",
+                { opacity: 0, y: 50 },
+                { opacity: 1, y: 0, ease: "none", duration: 0.4 },
                 0.6 // Starts exactly as the pixels cover the Hero
             );
         }

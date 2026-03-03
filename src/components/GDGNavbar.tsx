@@ -25,7 +25,7 @@ export default function GDGNavbar() {
         <motion.div
           layout
           className={`relative flex items-center justify-between px-8 py-4 rounded-3xl border transition-all duration-500 ${isScrolled
-            ? 'bg-white/80 backdrop-blur-xl border-gray-200/50 shadow-[0_8px_32px_rgba(0,0,0,0.04)]'
+            ? 'bg-black/50 backdrop-blur-xl border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.2)]'
             : 'bg-transparent border-transparent'
             }`}
         >
@@ -39,8 +39,8 @@ export default function GDGNavbar() {
               <span className="text-[10px] font-black text-black">G</span>
             </div>
             <div className="flex flex-col -gap-1">
-              <span className="text-xl font-black tracking-tighter text-black uppercase">GDG.</span>
-              <span className="text-[9px] font-bold text-black/30 tracking-widest uppercase">VIT MUMBAI</span>
+              <span className={`text-xl font-black tracking-tighter uppercase transition-colors duration-500 ${isScrolled ? 'text-white' : 'text-black'}`}>GDG.</span>
+              <span className={`text-[9px] font-bold tracking-widest uppercase transition-colors duration-500 ${isScrolled ? 'text-white/30' : 'text-black/30'}`}>VIT MUMBAI</span>
             </div>
           </motion.div>
 
@@ -53,7 +53,7 @@ export default function GDGNavbar() {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
-                className="text-[13px] font-bold text-black/40 hover:text-black transition-all uppercase tracking-[0.15em] relative group"
+                className={`text-[13px] font-bold transition-all uppercase tracking-[0.15em] relative group ${isScrolled ? 'text-white/50 hover:text-white' : 'text-black/40 hover:text-black'}`}
               >
                 {link.name}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#B6FF00] group-hover:w-full transition-all duration-300" />
@@ -66,7 +66,9 @@ export default function GDGNavbar() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="group flex items-center gap-2 bg-black text-white text-[13px] font-bold px-7 py-3 rounded-2xl shadow-xl hover:shadow-[#B6FF00]/10 transition-all border border-black/10"
+              className={`group flex items-center gap-2 text-[13px] font-bold px-7 py-3 rounded-2xl shadow-xl transition-all border ${isScrolled
+                ? 'bg-white text-black border-white/10 hover:shadow-[#B6FF00]/20'
+                : 'bg-black text-white border-black/10 hover:shadow-[#B6FF00]/10'}`}
             >
               Join Us!
               <ArrowRight className="w-4 h-4 text-[#B6FF00] transition-transform group-hover:translate-x-1" />
@@ -77,7 +79,7 @@ export default function GDGNavbar() {
           <div className="md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center text-black"
+              className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -92,14 +94,14 @@ export default function GDGNavbar() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 top-[100px] z-[90] bg-white/95 backdrop-blur-2xl md:hidden px-6 pt-12"
+            className="fixed inset-0 top-[100px] z-[90] bg-black/95 backdrop-blur-2xl md:hidden px-6 pt-12"
           >
             <div className="flex flex-col gap-8">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
-                  className="text-4xl font-black tracking-tighter text-black uppercase"
+                  className="text-4xl font-black tracking-tighter text-white uppercase"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.name}

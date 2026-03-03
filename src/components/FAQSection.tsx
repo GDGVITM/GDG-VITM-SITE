@@ -29,7 +29,7 @@ export default function FAQSection() {
     const [open, setOpen] = useState<number | null>(null);
 
     return (
-        <section className="relative w-full bg-[#F2F3F5] bg-grid-pattern py-[100px] md:py-[160px] overflow-hidden">
+        <section className="relative w-full bg-black bg-grid-pattern py-[100px] md:py-[160px] overflow-hidden">
             <div className="max-w-[860px] mx-auto px-6 md:px-[60px]">
 
                 {/* Heading */}
@@ -43,7 +43,7 @@ export default function FAQSection() {
                     <span className="inline-block text-[11px] font-bold tracking-[0.22em] text-[#B6FF00] uppercase mb-4">
                         FAQs
                     </span>
-                    <h2 className="text-[40px] md:text-[60px] font-bold tracking-tighter text-black leading-tight">
+                    <h2 className="text-[40px] md:text-[60px] font-bold tracking-tighter text-white leading-tight">
                         Frequently Asked Questions
                     </h2>
                 </motion.div>
@@ -60,26 +60,26 @@ export default function FAQSection() {
                                 viewport={{ once: true }}
                                 transition={{ delay: i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                                 className={`rounded-3xl border transition-all duration-500 shadow-sm overflow-hidden ${isOpen
-                                        ? 'border-[#B6FF00]/60 bg-white shadow-2xl scale-[1.02]'
-                                        : 'border-gray-200/80 bg-white/70 backdrop-blur-sm hover:border-gray-300 hover:bg-white/90 scale-100'
+                                    ? 'border-[#B6FF00]/60 bg-white/5 shadow-2xl scale-[1.02]'
+                                    : 'border-white/10 bg-white/[0.03] backdrop-blur-sm hover:border-white/20 hover:bg-white/[0.05] scale-100'
                                     }`}
                             >
                                 <button
                                     onClick={() => setOpen(isOpen ? null : i)}
                                     className="w-full flex items-center justify-between px-8 py-7 text-left gap-6 group"
                                 >
-                                    <span className={`text-[17px] md:text-[19px] font-bold tracking-tight leading-snug transition-colors duration-300 ${isOpen ? 'text-black' : 'text-black/80 group-hover:text-black'}`}>
+                                    <span className={`text-[17px] md:text-[19px] font-bold tracking-tight leading-snug transition-colors duration-300 ${isOpen ? 'text-white' : 'text-white/80 group-hover:text-white'}`}>
                                         {f.q}
                                     </span>
                                     <motion.div
                                         animate={{
                                             rotate: isOpen ? 180 : 0,
                                             backgroundColor: isOpen ? "#B6FF00" : "rgba(182, 255, 0, 0)",
-                                            borderColor: isOpen ? "#B6FF00" : "rgba(0, 0, 0, 0.1)"
+                                            borderColor: isOpen ? "#B6FF00" : "rgba(255, 255, 255, 0.1)"
                                         }}
                                         className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center border transition-colors duration-300"
                                     >
-                                        <ChevronDown className={`w-5 h-5 transition-colors duration-300 ${isOpen ? 'text-black' : 'text-black/40'}`} strokeWidth={2.5} />
+                                        <ChevronDown className={`w-5 h-5 transition-colors duration-300 ${isOpen ? 'text-black' : 'text-white/40'}`} strokeWidth={2.5} />
                                     </motion.div>
                                 </button>
 
@@ -93,8 +93,8 @@ export default function FAQSection() {
                                             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                                         >
                                             <div className="px-8 pb-8">
-                                                <div className="w-12 h-0.5 bg-gray-100 mb-6" />
-                                                <p className="text-[15px] md:text-[16px] text-black/50 leading-relaxed font-medium max-w-[700px]">
+                                                <div className="w-12 h-0.5 bg-white/10 mb-6" />
+                                                <p className="text-[15px] md:text-[16px] text-white/50 leading-relaxed font-medium max-w-[700px]">
                                                     {f.a}
                                                 </p>
                                             </div>

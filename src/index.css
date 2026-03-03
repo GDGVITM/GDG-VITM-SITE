@@ -1,13 +1,14 @@
-@import url('https://api.fontshare.com/v2/css?f[]=general-sans@200,300,400,500,600,700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "General Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Urbanist", ui-sans-serif, system-ui, sans-serif;
+  --font-space: "Space Grotesk", sans-serif;
 }
 
 body {
   font-family: var(--font-sans);
-  color: #000;
+  background-color: #000;
+  color: #fff;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -15,8 +16,8 @@ body {
 
 .bg-grid-pattern {
   background-size: 50px 50px;
-  background-image: linear-gradient(to right, #e5e7eb4d 1px, transparent 1px),
-    linear-gradient(to bottom, #e5e7eb4d 1px, transparent 1px);
+  background-image: linear-gradient(to right, #ffffff0d 1px, transparent 1px),
+    linear-gradient(to bottom, #ffffff0d 1px, transparent 1px);
 }
 
 /* Custom Scrollbar */
@@ -25,11 +26,11 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f8f9fa;
+  background: #000;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #0000001a;
+  background: #ffffff1a;
   border-radius: 10px;
 }
 

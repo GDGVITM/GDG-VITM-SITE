@@ -32,13 +32,13 @@ export default function Footer() {
     const handleTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
     return (
-        <footer className="relative w-full bg-[#F2F3F5] bg-grid-pattern border-t border-gray-200/80 overflow-hidden">
+        <footer className="relative w-full bg-black bg-grid-pattern border-t border-white/5 overflow-hidden">
             <PixelCorner pos="tl" />
             <PixelCorner pos="br" />
 
             {/* Background decorative text */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.02]">
-                <span className="text-[300px] font-black tracking-tighter text-black uppercase">GDG</span>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.05]">
+                <span className="text-[300px] font-black tracking-tighter text-white uppercase">GDG</span>
             </div>
 
             <div className="max-w-[1440px] mx-auto px-6 md:px-[80px] py-24 md:py-40 flex flex-col gap-24 relative z-10">
@@ -52,10 +52,10 @@ export default function Footer() {
                         className="flex flex-col gap-6 max-w-sm"
                     >
                         <div className="flex items-baseline gap-2 justify-center md:justify-start">
-                            <h2 className="text-[56px] md:text-[80px] font-black tracking-tighter leading-none text-black">GDG.</h2>
+                            <h2 className="text-[56px] md:text-[80px] font-black tracking-tighter leading-none text-white">GDG.</h2>
                             <span className="text-[#B6FF00] text-3xl font-black">TM</span>
                         </div>
-                        <p className="text-[15px] md:text-[16px] text-black/40 font-medium leading-relaxed">
+                        <p className="text-[15px] md:text-[16px] text-white/40 font-medium leading-relaxed">
                             Empowering the student developer community at Vidyalankar Institute of Technology through innovation, collaboration, and design excellence.
                         </p>
                     </motion.div>
@@ -69,9 +69,9 @@ export default function Footer() {
                                     initial={{ opacity: 0, y: 10 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     transition={{ delay: i * 0.1 }}
-                                    className="text-[13px] font-bold tracking-[0.2em] text-black/40 hover:text-black transition-all uppercase group"
+                                    className="text-[13px] font-bold tracking-[0.2em] uppercase group"
                                 >
-                                    <span className="inline-block group-hover:translate-x-1 transition-transform">{l}</span>
+                                    <span className="inline-block group-hover:translate-x-1 transition-transform text-white/40 group-hover:text-white">{l}</span>
                                     <span className="block h-px w-0 group-hover:w-full bg-[#B6FF00] transition-all duration-300 mt-1" />
                                 </motion.a>
                             ))}
@@ -86,7 +86,7 @@ export default function Footer() {
                                     whileInView={{ opacity: 1, scale: 1 }}
                                     transition={{ delay: i * 0.1 }}
                                     whileHover={{ y: -5, backgroundColor: '#B6FF00' }}
-                                    className="w-12 h-12 rounded-2xl bg-white border border-gray-200/80 flex items-center justify-center text-black/40 hover:text-black hover:border-[#B6FF00] transition-all duration-300 shadow-sm"
+                                    className="w-12 h-12 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-center text-white/40 hover:text-black hover:border-[#B6FF00] transition-all duration-300 shadow-sm"
                                     title={s.name}
                                 >
                                     {s.icon}
@@ -97,14 +97,14 @@ export default function Footer() {
                 </div>
 
                 {/* Bottom Bar */}
-                <div className="flex flex-col md:flex-row items-center justify-between gap-8 pt-12 border-t border-gray-200/50">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-8 pt-12 border-t border-white/5">
                     <div className="flex items-center gap-8">
-                        <p className="text-[12px] text-black/30 font-bold tracking-widest uppercase">
+                        <p className="text-[12px] text-white/30 font-bold tracking-widest uppercase">
                             © 2026 GDG VIT MUMBAI. ALL RIGHTS RESERVED.
                         </p>
                         <div className="hidden lg:flex items-center gap-4">
                             <div className="w-1.5 h-1.5 bg-[#B6FF00] rounded-full" />
-                            <span className="text-[11px] text-black/20 font-bold uppercase tracking-widest">Built with Passion</span>
+                            <span className="text-[11px] text-white/20 font-bold uppercase tracking-widest">Built with Passion</span>
                         </div>
                     </div>
 
