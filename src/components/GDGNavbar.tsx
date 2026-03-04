@@ -20,27 +20,31 @@ export default function GDGNavbar() {
   ];
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${isScrolled ? 'py-3' : 'py-5'}`}>
-      <div className="max-w-[1440px] mx-auto px-6 md:px-[60px]">
+    <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${isScrolled ? 'pt-0 md:pt-2' : 'pt-2 md:pt-2'}`}>
+      <div className="max-w-[1440px] mx-auto px-4 md:px-[60px]">
         <motion.div
           layout
-          className={`relative flex items-center justify-between px-8 py-4 rounded-3xl border transition-all duration-500 ${isScrolled
-            ? 'bg-black/50 backdrop-blur-xl border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.2)]'
-            : 'bg-transparent border-transparent'
+          className={`relative flex items-center justify-between px-6 md:px-8 py-3 md:py-4 rounded-[24px] md:rounded-3xl border transition-all duration-500 ${isScrolled
+            ? 'bg-black/60 backdrop-blur-xl border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.3)] text-white'
+            : 'bg-white/40 backdrop-blur-xl border-black/5 shadow-[0_4px_20px_rgba(0,0,0,0.03)] text-black'
             }`}
         >
           {/* Left: Logo */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-1 cursor-pointer group"
+            className="flex items-center gap-2 cursor-pointer group"
           >
-            <div className="w-8 h-8 bg-[#B6FF00] rounded-lg flex items-center justify-center transition-transform group-hover:rotate-12">
-              <span className="text-[10px] font-black text-black">G</span>
+            <div className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center transition-transform group-hover:scale-110">
+              <img
+                src="/GDG-Sticker-Brackets.gif"
+                alt="GDG Logo"
+                className="w-full h-full object-contain"
+              />
             </div>
-            <div className="flex flex-col -gap-1">
-              <span className={`text-xl font-black tracking-tighter uppercase transition-colors duration-500 ${isScrolled ? 'text-white' : 'text-black'}`}>GDG.</span>
-              <span className={`text-[9px] font-bold tracking-widest uppercase transition-colors duration-500 ${isScrolled ? 'text-white/30' : 'text-black/30'}`}>VIT MUMBAI</span>
+            <div className="flex flex-col -gap-0.5">
+              <span className={`text-[15px] md:text-xl font-black tracking-tighter uppercase transition-colors duration-500 ${isScrolled ? 'text-white' : 'text-black'}`}>GDG.</span>
+              <span className={`text-[7px] md:text-[9px] font-bold tracking-widest uppercase transition-colors duration-500 ${isScrolled ? 'text-white/30' : 'text-black/30'}`}>VIT MUMBAI</span>
             </div>
           </motion.div>
 
@@ -79,7 +83,10 @@ export default function GDGNavbar() {
           <div className="md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white"
+              className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors duration-500 border ${isScrolled
+                ? 'bg-white/5 border-white/10 text-white'
+                : 'bg-black/5 border-black/10 text-black'
+                }`}
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -94,20 +101,22 @@ export default function GDGNavbar() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 top-[100px] z-[90] bg-black/95 backdrop-blur-2xl md:hidden px-6 pt-12"
+            className={`fixed inset-0 top-[80px] z-[90] backdrop-blur-2xl md:hidden px-6 pt-12 transition-colors duration-500 ${isScrolled ? 'bg-black/95 text-white' : 'bg-white/95 text-black'
+              }`}
           >
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-6">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
-                  className="text-4xl font-black tracking-tighter text-white uppercase"
+                  className="text-2xl font-black tracking-tighter uppercase"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.name}
                 </a>
               ))}
-              <button className="mt-8 w-full bg-[#B6FF00] text-black font-black py-6 rounded-3xl text-xl uppercase tracking-widest shadow-2xl">
+              <button className={`mt-4 w-full font-black py-5 rounded-3xl text-lg uppercase tracking-widest shadow-2xl transition-colors ${isScrolled ? 'bg-[#B6FF00] text-black' : 'bg-black text-white'
+                }`}>
                 Join Community
               </button>
             </div>

@@ -36,7 +36,7 @@ const MinecraftCloud = ({ delay, top, opacity = 0.6, duration = 80, scale = 1 }:
 
 export default function Hero() {
   return (
-    <div className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#F8F9FA] bg-grid-pattern pt-14 sm:pt-16 md:pt-20">
+    <div className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#F8F9FA] bg-grid-pattern pt-20 sm:pt-24 md:pt-28">
 
       {/* ── Minecraft Elements ── */}
       <MinecraftSun />
@@ -59,7 +59,7 @@ export default function Hero() {
       <MinecraftCloud delay={90} top="60%" opacity={0.3} duration={85} scale={1.5} />
       <MinecraftCloud delay={15} top="20%" opacity={0.4} duration={70} scale={0.9} />
 
-      <div id="hero-content" className="relative w-full flex flex-col items-center justify-center flex-1 py-6 sm:py-10 -mt-12 sm:-mt-16 md:-mt-20">
+      <div id="hero-content" className="relative w-full flex flex-col items-center justify-center flex-1 py-6 sm:py-10 -mt-4 sm:-mt-6 md:-mt-8">
 
         {/* ── Neon Green Blocks – Top Left ── */}
         <motion.div
