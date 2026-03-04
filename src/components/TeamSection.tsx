@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
+import { Github, Instagram, Linkedin } from 'lucide-react';
 
 const members = [
     { name: 'Devdatta Talele', role: 'Organizer Head' },
@@ -19,23 +20,147 @@ const members = [
     { name: 'Jitesh Gaikwad', role: 'Outreach Lead' },
 ];
 
-function PixelCorner({ side }: { side: 'tl' | 'tr' }) {
+// 1. CSS Mask Configurations for the 'Tetris' pixel cutouts (8-bit style)
+const BOX_SIZE = "24px"; // Matches background grid cells
+const MASK_IMAGE = "linear-gradient(black, black), linear-gradient(black, black), linear-gradient(black, black), linear-gradient(black, black), linear-gradient(black, black)";
+const MASK_SIZE = `100% 100%, ${BOX_SIZE} ${BOX_SIZE}, ${BOX_SIZE} ${BOX_SIZE}, ${BOX_SIZE} ${BOX_SIZE}, ${BOX_SIZE} ${BOX_SIZE}`;
+
+const maskPositions = [
+    // Top-Left (Card 1)
+    `0 0, 0 0, ${BOX_SIZE} 0, ${BOX_SIZE} ${BOX_SIZE}, 0 calc(${BOX_SIZE} * 2)`,
+    // Bottom-Left (Card 2)
+    `0 0, 0 100%, ${BOX_SIZE} 100%, ${BOX_SIZE} calc(100% - ${BOX_SIZE}), 0 calc(100% - ${BOX_SIZE} * 2)`,
+    // Top-Right (Card 3)
+    `0 0, 100% 0, calc(100% - ${BOX_SIZE}) 0, calc(100% - ${BOX_SIZE}) ${BOX_SIZE}, 100% calc(${BOX_SIZE} * 2)`,
+    // Bottom-Right (Card 4)
+    `0 0, 100% 100%, calc(100% - ${BOX_SIZE}) 100%, calc(100% - ${BOX_SIZE}) calc(100% - ${BOX_SIZE}), 100% calc(100% - ${BOX_SIZE} * 2)`
+];
+
+const cardRadii = [
+    "rounded-br-[40px] rounded-tr-[40px] rounded-bl-[40px] rounded-tl-none",
+    "rounded-tr-[40px] rounded-br-[40px] rounded-tl-[40px] rounded-bl-none",
+    "rounded-bl-[40px] rounded-tl-[40px] rounded-br-[40px] rounded-tr-none",
+    "rounded-tl-[40px] rounded-bl-[40px] rounded-tr-[40px] rounded-br-none"
+];
+
+const PixelGrid = ({ isHovered }: { isHovered: boolean }) => {
+    const GRID = 7;
     return (
-        <div className={`absolute ${side === 'tl' ? '-top-1 -left-1' : '-top-1 -right-1'} flex flex-col pointer-events-none z-20`}>
-            {side === 'tl' ? (
-                <div className="flex flex-col gap-0">
-                    <div className="flex"><div className="w-5 h-5 bg-black" /><div className="w-5 h-5 bg-white/5" /></div>
-                    <div className="flex"><div className="w-5 h-5 bg-white/5" /><div className="w-5 h-5 bg-white/5" /><div className="w-5 h-5 bg-white/5" /></div>
-                    <div className="flex gap-0"><div className="w-5 h-5 bg-transparent" /><div className="w-5 h-5 bg-white/5" /><div className="w-5 h-5 bg-white/10" /></div>
-                </div>
-            ) : (
-                <div className="flex flex-col items-end gap-0">
-                    <div className="flex"><div className="w-5 h-5 bg-white/5" /><div className="w-5 h-5 bg-black" /></div>
-                    <div className="flex"><div className="w-5 h-5 bg-white/5" /><div className="w-5 h-5 bg-white/5" /><div className="w-5 h-5 bg-white/5" /></div>
-                    <div className="flex gap-0"><div className="w-5 h-5 bg-white/10" /><div className="w-5 h-5 bg-white/5" /><div className="w-5 h-5 bg-transparent" /></div>
-                </div>
-            )}
+        <div className="absolute inset-0 grid grid-cols-7 grid-rows-7 z-20 pointer-events-none">
+            {Array.from({ length: GRID * GRID }).map((_, idx) => {
+                const r = Math.floor(idx / GRID);
+                const c = idx % GRID;
+                return (
+                    <motion.div
+                        key={idx}
+                        initial={{ opacity: 1, scale: 1 }}
+                        animate={{
+                            opacity: isHovered ? 0 : 1,
+                            scale: isHovered ? 0 : 1,
+                        }}
+                        transition={{
+                            duration: 0.4,
+                            delay: (r + c) * 0.05,
+                            ease: [0.4, 0, 0.2, 1]
+                        }}
+                        className="bg-[#1A1C1F] border-[0.2px] border-white/5"
+                    />
+                );
+            })}
         </div>
+    );
+};
+
+function TeamMemberCard({ m, i }: { m: any, i: number, key?: any }) {
+    const [isHovered, setIsHovered] = React.useState(false);
+    // 2. Stagger Logic: Odd (1,3) high, Even (2,4) low
+    const isShiftedDown = i % 2 === 1;
+    const photoUrl = `https://i.pravatar.cc/800?u=${encodeURIComponent(m.name)}`;
+    const currentMaskPosition = maskPositions[i % 4];
+    const currentRadius = cardRadii[i % 4];
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: (i % 4) * 0.1 }}
+            className={`group relative flex flex-col items-center w-full self-start transition-all duration-500 ${isShiftedDown ? 'mt-12 lg:mt-24' : ''}`}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+        >
+            {/* Main Interactive Card Body with CSS Mask Cutout */}
+            <div
+                className={`relative w-full aspect-[4/5] bg-white/5 overflow-hidden shadow-inner border border-white/5 transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-black/50 ${currentRadius}`}
+                style={{
+                    WebkitMaskImage: MASK_IMAGE,
+                    maskImage: MASK_IMAGE,
+                    WebkitMaskSize: MASK_SIZE,
+                    maskSize: MASK_SIZE,
+                    WebkitMaskPosition: currentMaskPosition,
+                    maskPosition: currentMaskPosition,
+                    WebkitMaskRepeat: 'no-repeat',
+                    maskRepeat: 'no-repeat',
+                    WebkitMaskComposite: 'destination-out',
+                    maskComposite: 'exclude'
+                }}
+            >
+
+                {/* Image layer (revealed on hover) */}
+                <div className="absolute inset-0 bg-[#0D0D0D]">
+                    <img
+                        src={photoUrl}
+                        alt={m.name}
+                        className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 scale-105 group-hover:scale-100"
+                    />
+                </div>
+
+                {/* Pixel Overlay (evaporates on hover) */}
+                <PixelGrid isHovered={isHovered} />
+
+                {/* Name & Role Center Control (fades out on hover) */}
+                <div className="absolute inset-0 flex items-center justify-center p-8 z-30">
+                    <motion.div
+                        animate={{
+                            opacity: isHovered ? 0 : 1,
+                            scale: isHovered ? 0.8 : 1,
+                            y: isHovered ? -20 : 0
+                        }}
+                        transition={{ duration: 0.4, ease: "easeOut" }}
+                        className="flex flex-col items-center text-center gap-1 drop-shadow-2xl"
+                    >
+                        <h3 className="text-[26px] md:text-[30px] font-black text-white leading-tight tracking-tighter">
+                            {m.name}
+                        </h3>
+                        <p className="text-[13px] text-white/50 font-bold uppercase tracking-[0.1em]">
+                            {m.role}
+                        </p>
+                    </motion.div>
+                </div>
+            </div>
+
+            {/* Social Buttons Tag (Maintains position and style) */}
+            <div className={`absolute -bottom-10 left-1/2 -translate-x-1/2 bg-[#1A1C1F] rounded-[24px] p-4 shadow-[0_20px_40px_rgba(0,0,0,0.4)] z-40 border border-white/5 flex items-center justify-center transition-all duration-500 ${isHovered ? 'scale-110 shadow-black/60' : ''}`}>
+                <div className="flex gap-2.5">
+                    {[
+                        { Icon: Github, color: 'hover:text-white', label: 'GitHub' },
+                        { Icon: Instagram, color: 'hover:text-[#E4405F]', label: 'Instagram' },
+                        { Icon: Linkedin, color: 'hover:text-[#0077B5]', label: 'LinkedIn' }
+                    ].map((social, idx) => (
+                        <a
+                            key={idx}
+                            href="#"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={social.label}
+                            className="w-10 h-10 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center group/icon transition-all duration-300 hover:bg-white/10 hover:scale-110 active:scale-95 shadow-lg"
+                        >
+                            <social.Icon size={18} className={`text-white/70 transition-colors ${social.color}`} strokeWidth={2} />
+                        </a>
+                    ))}
+                </div>
+            </div>
+        </motion.div>
     );
 }
 
@@ -44,7 +169,7 @@ export default function TeamSection() {
     const displayMembers = members;
 
     return (
-        <section id="team-section" className="relative w-full bg-transparent bg-grid-pattern py-24 md:py-40 overflow-hidden">
+        <section className="relative w-full bg-black bg-grid-pattern py-24 md:py-40 overflow-hidden">
             <div className="max-w-[1440px] mx-auto px-6 md:px-[60px]">
 
                 {/* Heading */}
@@ -63,53 +188,16 @@ export default function TeamSection() {
                 {/* Grid with staggered layout */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-32">
 
-                    {displayMembers.map((m, i) => {
-                        // Stagger effect: even columns higher, odd columns lower
-                        const isStaggered = Math.floor(i / 1) % 2 === (i % 4 === 1 || i % 4 === 3 ? 1 : 0);
-                        // Simplified stagger for 4 columns: 0,2 are high, 1,3 are low
-                        const desktopStagger = (i % 4 === 1 || i % 4 === 3);
+                    {displayMembers.map((m, i) => (
+                        <TeamMemberCard key={i} m={m} i={i} />
+                    ))}
 
-                        return (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.8, delay: (i % 4) * 0.1 }}
-                                className={`group relative flex flex-col items-center ${desktopStagger ? 'lg:mt-16' : ''}`}
-                            >
-                                {/* Main Grey Card (Image Placeholder) */}
-                                <div className="relative w-full aspect-[4/5] bg-white/5 rounded-[40px] overflow-hidden shadow-inner group-hover:shadow-md transition-shadow">
-                                    <PixelCorner side={i % 2 === 0 ? 'tl' : 'tr'} />
-                                    <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent" />
-                                    <div className="w-full h-full flex items-center justify-center opacity-[0.1]">
-                                        <span className="text-6xl font-black italic text-white/20">GDG</span>
-                                    </div>
-                                </div>
-
-                                {/* Floating Name Tag */}
-                                <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-[90%] bg-[#1A1C1F] rounded-[28px] p-6 shadow-[0_20px_40px_rgba(0,0,0,0.3)] flex flex-col items-center text-center z-10 border border-white/5 group-hover:shadow-[0_30px_60px_rgba(0,0,0,0.5)] transition-all duration-500">
-                                    <h3 className="text-[20px] font-bold text-white tracking-tight">{m.name}</h3>
-                                    <p className="text-[13px] text-white/40 font-semibold mt-0.5 tracking-wide">{m.role}</p>
-
-                                    <div className="flex gap-2 mt-4">
-                                        {[1, 2, 3].map((_, idx) => (
-                                            <div key={idx} className="w-9 h-9 bg-white/5 border border-white/5 rounded-xl flex items-center justify-center group/icon overflow-hidden transition-colors hover:bg-[#B6FF00]">
-                                                <div className="w-3.5 h-3.5 bg-white/10 group-hover/icon:bg-black transition-colors rounded-sm" />
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </motion.div>
-                        );
-                    })}
-
-                    {/* Special CTA Card */}
+                    {/* Special CTA Card - Follows stagger pattern */}
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="relative bg-[#2A2D32] bg-gradient-to-br from-[#35393f] to-[#1A1C1F] rounded-[40px] p-10 flex flex-col justify-between h-full min-h-[440px] shadow-2xl overflow-hidden border border-white/5 lg:mt-16 sm:mt-0"
+                        className="relative bg-[#2A2D32] bg-gradient-to-br from-[#35393f] to-[#1A1C1F] rounded-[40px] p-10 flex flex-col justify-between h-full min-h-[440px] shadow-2xl overflow-hidden border border-white/5 mt-12 lg:mt-24"
                     >
                         <div>
                             <div className="w-10 h-10 bg-[#B6FF00] mb-8 shadow-[0_0_20px_rgba(182,255,0,0.4)]" />
