@@ -6,7 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const words = ['INNOVATIVE', 'VISIONARY', 'CREATIVE', 'KINETIC', 'MINIMAL', 'PREMIUM'];
+const words = ['INNOVATIVE', 'VISIONARY', 'CREATIVE'];
 
 export default function MarqueeSlider() {
     const triggerRef = useRef<HTMLDivElement>(null);

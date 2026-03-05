@@ -145,37 +145,56 @@ const Stalactite = ({ height = 120, width = 48, left, top }: { height?: number, 
 
 export default function MinecraftDeepslateCave() {
     const containerRef = useRef<HTMLDivElement>(null);
-    const { scrollYProgress } = useScroll();
+    const [progress, setProgress] = React.useState(0);
 
-    // Reorganized Layer Parallax
-    const layer1Y = useTransform(scrollYProgress, [0.55, 1], [500, -500]); // Foreground
-    const layer1X = useTransform(scrollYProgress, [0.55, 1], [0, 60]);
-
-    const layer2Y = useTransform(scrollYProgress, [0.55, 1], [300, -300]); // Midground Structural
-    const layer2X = useTransform(scrollYProgress, [0.55, 1], [0, 120]);
-
-    const layer3Y = useTransform(scrollYProgress, [0.55, 1], [150, -150]); // Background Walls & Ores
-    const layer4Y = useTransform(scrollYProgress, [0.55, 1], [50, -50]);   // Deep Voids
+    // Parallax transforms based on LOCALIZED progress
+    const layer1Y = progress * -1000 + 500;
+    const layer1X = progress * 60;
+    const layer2Y = progress * -600 + 300;
+    const layer2X = progress * 120;
+    const layer3Y = progress * -300 + 150;
+    const layer4Y = progress * -100 + 50;
 
     useEffect(() => {
         if (!containerRef.current) return;
         gsap.set(containerRef.current, { opacity: 0 });
-        const fadeIn = ScrollTrigger.create({
+
+        let fadeIn: ScrollTrigger;
+        let parallax: ScrollTrigger;
+
+        // Phase 1: Fade IN logic (matches Night Sky Fade OUT)
+        fadeIn = ScrollTrigger.create({
             trigger: "#team-section",
             start: "top bottom",
             end: "top center",
             scrub: true,
+            refreshPriority: -10,
             onUpdate: (self) => {
                 gsap.set(containerRef.current, { opacity: self.progress });
             }
         });
+
+        // Phase 2: Parallax DRIvER
+        parallax = ScrollTrigger.create({
+            trigger: "#team-section",
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true,
+            refreshPriority: -10,
+            onUpdate: (self) => {
+                // Parallax logic: update localized state
+                setProgress(self.progress);
+            }
+        });
+
         // Ensure everything is refreshed after layout settles
         const timer = setTimeout(() => {
             ScrollTrigger.refresh();
         }, 100);
 
         return () => {
-            fadeIn.kill();
+            fadeIn?.kill();
+            parallax?.kill();
             clearTimeout(timer);
         };
     }, []);
