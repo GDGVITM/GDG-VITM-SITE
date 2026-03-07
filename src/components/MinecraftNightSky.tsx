@@ -49,23 +49,25 @@ export default function MinecraftNightSky() {
         // Set initial state
         gsap.set(containerRef.current, { opacity: 0 });
 
-        // Phase 1: Fade IN after Hero
+        // Phase 1: Fade IN after Hero (Starts at TrustedStrip)
         const fadeIn = ScrollTrigger.create({
             trigger: "#page-content",
             start: "top bottom",
             end: "top center",
             scrub: true,
+            refreshPriority: -10,
             onUpdate: (self) => {
                 gsap.set(containerRef.current, { opacity: self.progress });
             }
         });
 
-        // Phase 2: Fade OUT for Team Section
+        // Phase 2: Fade OUT for Team Section (Starts when Team starts entering)
         const fadeOut = ScrollTrigger.create({
             trigger: "#team-section",
             start: "top bottom",
             end: "top center",
             scrub: true,
+            refreshPriority: -10,
             onUpdate: (self) => {
                 gsap.set(containerRef.current, { opacity: 1 - self.progress });
             }
