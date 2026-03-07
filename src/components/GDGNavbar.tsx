@@ -13,10 +13,10 @@ export default function GDGNavbar() {
   }, []);
 
   const navLinks = [
-    { name: 'About Us', href: '#' },
-    { name: 'Events', href: '#' },
-    { name: 'Gallery', href: '#' },
-    { name: 'Spectrum', href: '#' }
+    { name: 'About Us', href: '/' },
+    { name: 'Events', href: '/events' },
+    { name: 'Gallery', href: '/gallery' },
+    { name: 'Spectrum', href: '/spectrum' }
   ];
 
   return (

@@ -1,11 +1,124 @@
+// /**
+//  * @license
+//  * SPDX-License-Identifier: Apache-2.0
+//  */
+
+// import { useEffect } from 'react';
+// import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+// import Lenis from 'lenis';
+
+// import Spectrum from './pages/Spectrum';
+
+// import GDGNavbar from './components/GDGNavbar';
+// import GDGHero from './components/GDGHero';
+// import TrustedStrip from './components/TrustedStrip';
+// import AboutSection from './components/AboutSection';
+// import MarqueeSlider from './components/MarqueeSlider';
+// import TeamSection from './components/TeamSection';
+// import FAQSection from './components/FAQSection';
+// import CTASection from './components/CTASection';
+// import Footer from './components/Footer';
+// import PixelRevealTransition from './components/PixelRevealTransition';
+// import MinecraftNightSky from './components/MinecraftNightSky';
+// import MinecraftDeepslateCave from './components/MinecraftDeepslateCave';
+// import { useRef } from 'react';
+// import gsap from 'gsap';
+// import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// gsap.registerPlugin(ScrollTrigger);
+
+// export default function App() {
+//   const heroSectionRef = useRef<HTMLElement>(null);
+//   useEffect(() => {
+//     const lenis = new Lenis({
+//       duration: 1.2,
+//       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+//       smoothWheel: true,
+//       wheelMultiplier: 1.0,
+//       touchMultiplier: 2,
+//     });
+
+//     // Synchronize Lenis with ScrollTrigger
+//     lenis.on('scroll', ScrollTrigger.update);
+
+//     function raf(time: number) {
+//       lenis.raf(time);
+//       requestAnimationFrame(raf);
+//     }
+//     requestAnimationFrame(raf);
+
+//     return () => {
+//       lenis.destroy();
+//     };
+//   }, []);
+
+//   return (
+//     <main className="w-full selection:bg-[#B6FF00] selection:text-black font-sans">
+//       <MinecraftNightSky />
+//       <MinecraftDeepslateCave />
+//       {/* ── Hero ── */}
+//       <GDGNavbar />
+//       <section ref={heroSectionRef} className="relative w-full h-[200vh] bg-transparent">
+//         <div className="sticky top-0 h-screen w-full overflow-hidden">
+//           {/* Force Refresh: 2024-02-24 00:15 */}
+//           <GDGHero />
+//           {/* ── Pixel Reveal Transition Overlay ── */}
+//           <PixelRevealTransition triggerRef={heroSectionRef} />
+//         </div>
+//       </section>
+
+
+//       {/* ── Overlapping Layer (Slides OVER the Hero) ── */}
+//       <div id="page-content" className="relative z-[50] -mt-[100vh] bg-transparent">
+//         <TrustedStrip />
+//         <AboutSection />
+//       </div>
+
+//       {/* ── Flowing Content ── */}
+//       <div className="relative z-[50] bg-transparent">
+//         {/* ── 3. Marquee Slider ── */}
+//         <MarqueeSlider />
+//         {/* ── 6. CTA / Quote ── */}
+//         <CTASection />
+//         {/* ── 4. Team Members ── */}
+//         <TeamSection />
+
+//         {/* ── 5. FAQs ── */}
+//         <FAQSection />
+
+
+
+//         {/* ── 7. Footer ── */}
+//         <Footer />
+//       </div>
+//     </main>
+//   );
+// }
+
+
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Lenis from 'lenis';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// Layout Components
 import GDGNavbar from './components/GDGNavbar';
+import Footer from './components/Footer';
+import MinecraftNightSky from './components/MinecraftNightSky';
+import MinecraftDeepslateCave from './components/MinecraftDeepslateCave';
+
+// Page Components
+import Gallery from './pages/Gallery';
+import Events from './pages/Events';
+import Spectrum from './pages/Spectrum';
+
+// Home Specific Components
 import GDGHero from './components/GDGHero';
 import TrustedStrip from './components/TrustedStrip';
 import AboutSection from './components/AboutSection';
@@ -13,18 +126,48 @@ import MarqueeSlider from './components/MarqueeSlider';
 import TeamSection from './components/TeamSection';
 import FAQSection from './components/FAQSection';
 import CTASection from './components/CTASection';
-import Footer from './components/Footer';
 import PixelRevealTransition from './components/PixelRevealTransition';
-import MinecraftNightSky from './components/MinecraftNightSky';
-import MinecraftDeepslateCave from './components/MinecraftDeepslateCave';
-import { useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function App() {
+// Helper component to reset scroll on route change
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
+
+// Separate component for the Home page content
+function Home() {
   const heroSectionRef = useRef<HTMLElement>(null);
+  return (
+    <>
+      <section ref={heroSectionRef} className="relative w-full h-[200vh] bg-transparent">
+        <div className="sticky top-0 h-screen w-full overflow-hidden">
+          <GDGHero />
+          <PixelRevealTransition triggerRef={heroSectionRef} />
+        </div>
+      </section>
+
+      <div id="page-content" className="relative z-[50] -mt-[100vh] bg-transparent">
+        <TrustedStrip />
+        <AboutSection />
+      </div>
+
+      <div className="relative z-[50] bg-transparent">
+        <MarqueeSlider />
+        <CTASection />
+        <TeamSection />
+        <FAQSection />
+        <Footer />
+      </div>
+    </>
+  );
+}
+
+export default function App() {
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
@@ -34,7 +177,6 @@ export default function App() {
       touchMultiplier: 2,
     });
 
-    // Synchronize Lenis with ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update);
 
     function raf(time: number) {
@@ -49,45 +191,23 @@ export default function App() {
   }, []);
 
   return (
-    <main className="w-full selection:bg-[#B6FF00] selection:text-black font-sans">
-      <MinecraftNightSky />
-      <MinecraftDeepslateCave />
-      {/* ── Hero ── */}
-      <GDGNavbar />
-      <section ref={heroSectionRef} className="relative w-full h-[200vh] bg-transparent">
-        <div className="sticky top-0 h-screen w-full overflow-hidden">
-          {/* Force Refresh: 2024-02-24 00:15 */}
-          <GDGHero />
-          {/* ── Pixel Reveal Transition Overlay ── */}
-          <PixelRevealTransition triggerRef={heroSectionRef} />
-        </div>
-      </section>
+    <Router>
+      <ScrollToTop />
+      <main className="w-full selection:bg-[#B6FF00] selection:text-black font-sans">
+        {/* Persistent Background Elements */}
+        <MinecraftNightSky />
+        <MinecraftDeepslateCave />
+        
+        {/* Persistent Navbar */}
+        <GDGNavbar />
 
-
-      {/* ── Overlapping Layer (Slides OVER the Hero) ── */}
-      <div id="page-content" className="relative z-[50] -mt-[100vh] bg-transparent">
-        <TrustedStrip />
-        <AboutSection />
-      </div>
-
-      {/* ── Flowing Content ── */}
-      <div className="relative z-[50] bg-transparent">
-        {/* ── 3. Marquee Slider ── */}
-        <MarqueeSlider />
-        {/* ── 6. CTA / Quote ── */}
-        <CTASection />
-        {/* ── 4. Team Members ── */}
-        <TeamSection />
-
-        {/* ── 5. FAQs ── */}
-        <FAQSection />
-
-
-
-        {/* ── 7. Footer ── */}
-        <Footer />
-      </div>
-    </main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/gallery" element={<Gallery/>} />
+          <Route path="/events" element={<Events />} /> 
+          <Route path="/spectrum" element={<Spectrum />} />
+        </Routes>
+      </main>
+    </Router>
   );
 }
-
