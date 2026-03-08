@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'motion/react';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform, useMotionTemplate } from 'motion/react';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 import MinecraftMountains from './MinecraftMountains';
 
@@ -29,8 +29,44 @@ function PixelBlock({ className, delay }: { className: string, delay: number }) 
 }
 
 export default function CTASection() {
+    const sectionRef = useRef<HTMLElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ["start end", "end start"]
+    });
+
+    // Parallax movement mapping (-15px to 15px)
+    const bgY = useTransform(scrollYProgress, [0, 1], [-15, 15]);
+    const bgYString = useMotionTemplate`${bgY}px`;
+
     return (
-        <section id="cta-section" className="relative w-full bg-transparent bg-grid-pattern min-h-screen overflow-hidden flex items-center justify-center">
+        <motion.section
+            ref={sectionRef}
+            id="cta-section"
+            className="relative w-full bg-transparent bg-grid-pattern min-h-screen overflow-hidden flex items-center justify-center"
+            style={{ "--parallax-bg-y": bgYString } as any}
+        >
+
+            <style>{`
+                #cta-section .bg-\\[\\#B6FF00\\] {
+                    position: relative;
+                    overflow: hidden;
+                    box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.12);
+                }
+                #cta-section .bg-\\[\\#B6FF00\\]::before {
+                    content: "";
+                    position: absolute;
+                    inset: -30px 0 -30px 0;
+                    pointer-events: none;
+                    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23D9FF66' d='M2 1h1v1h-1z M6 1h2v1h-2z M12 0h1v1h-1z M14 2h1v1h-1z M1 4h1v1h-1z M4 5h1v1h-1z M9 4h2v1h-2z M15 5h1v1h-1z M0 8h1v1h-1z M3 9h1v1h-1z M7 8h1v1h-1z M11 9h2v1h-2z M13 7h1v1h-1z M2 12h1v1h-1z M5 13h1v1h-1z M8 11h2v1h-2z M14 12h1v1h-1z M4 15h1v1h-1z M10 14h1v1h-1z M12 15h1v1h-1z'/%3E%3Cpath fill='%238CC600' d='M0 2h1v1h-1z M3 0h1v1h-1z M5 2h1v1h-1z M8 1h1v1h-1z M10 0h2v1h-2z M13 3h1v1h-1z M15 1h1v1h-1z M2 5h1v1h-1z M5 4h1v1h-1z M7 6h1v1h-1z M11 5h1v1h-1z M12 4h1v1h-1z M14 6h1v1h-1z M1 8h1v1h-1z M4 7h1v1h-1z M6 9h1v1h-1z M9 8h1v1h-1z M10 10h1v1h-1z M13 9h1v1h-1z M15 8h1v1h-1z M0 11h1v1h-1z M3 13h1v1h-1z M7 12h1v1h-1z M9 13h1v1h-1z M11 11h2v1h-2z M13 13h1v1h-1z M1 14h2v1h-2z M6 15h1v1h-1z M8 14h1v1h-1z M14 15h1v1h-1z M15 14h1v1h-1z M3 3h1v1h-1z M10 6h1v1h-1z M2 10h1v1h-1z M8 9h1v1h-1z M12 11h1v1h-1z'/%3E%3Cpath fill='%23598000' d='M1 1h1v1h-1z M4 2h1v1h-1z M7 0h1v1h-1z M9 2h1v1h-1z M11 3h1v1h-1z M14 0h1v1h-1z M0 5h1v1h-1z M3 4h1v1h-1z M6 5h1v1h-1z M8 7h1v1h-1z M10 4h1v1h-1z M13 5h1v1h-1z M15 3h1v1h-1z M2 7h1v1h-1z M5 8h1v1h-1z M9 10h1v1h-1z M11 7h1v1h-1z M14 8h1v1h-1z M0 14h1v1h-1z M4 11h1v1h-1z M5 14h1v1h-1z M7 10h1v1h-1z M9 15h1v1h-1z M12 13h1v1h-1z M15 11h1v1h-1z M1 15h1v1h-1z M3 12h1v1h-1z M8 13h1v1h-1z M10 12h1v1h-1z M13 14h1v1h-1z'/%3E%3C/svg%3E");
+                    background-size: 64px 64px;
+                    image-rendering: pixelated;
+                    z-index: 10;
+                    opacity: 0.8;
+                    transform: translateY(var(--parallax-bg-y, 0px));
+                    will-change: transform;
+                }
+            `}</style>
 
             {/* Decorative pixel blocks & Mountains */}
             <MinecraftMountains />
@@ -95,7 +131,8 @@ export default function CTASection() {
                     transition={{ delay: 1, duration: 1 }}
                     className="mt-10 text-[16px] md:text-[18px] font-medium text-white/50 leading-relaxed max-w-[600px] mx-auto"
                 >
-                    We don't just write code. We craft digital experiences that move people and define the future.
+                    We don't just write code. We craft digital experiences  <br />
+                    that move people and define the future.
                 </motion.p>
 
                 {/* CTA button */}
@@ -139,6 +176,6 @@ export default function CTASection() {
                     ))}
                 </motion.div>
             </div>
-        </section>
+        </motion.section>
     );
 }
