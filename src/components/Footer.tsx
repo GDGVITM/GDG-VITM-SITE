@@ -1,8 +1,15 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowUp, Instagram, Linkedin, Github, Twitter } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-const navLinks = ['About Us', 'Services', 'Projects', 'Contact'];
+const navLinks = [
+    { name: 'About Us', href: '/' },
+    { name: 'Events', href: '/events' },
+    { name: 'Gallery', href: '/gallery' },
+    { name: 'Spectrum', href: '/spectrum' }
+];
+
 const socials = [
     { name: 'Instagram', icon: <Instagram className="w-5 h-5" />, href: '#' },
     { name: 'LinkedIn', icon: <Linkedin className="w-5 h-5" />, href: '#' },
@@ -63,17 +70,20 @@ export default function Footer() {
                     <div className="flex flex-col gap-10 items-center md:items-end">
                         <nav className="flex flex-wrap items-center justify-center md:justify-end gap-8 md:gap-12">
                             {navLinks.map((l, i) => (
-                                <motion.a
-                                    key={l}
-                                    href="#"
+                                <motion.div
+                                    key={l.name}
                                     initial={{ opacity: 0, y: 10 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     transition={{ delay: i * 0.1 }}
-                                    className="text-[13px] font-bold tracking-[0.2em] uppercase group"
                                 >
-                                    <span className="inline-block group-hover:translate-x-1 transition-transform text-white/40 group-hover:text-white">{l}</span>
-                                    <span className="block h-px w-0 group-hover:w-full bg-[#B6FF00] transition-all duration-300 mt-1" />
-                                </motion.a>
+                                    <Link
+                                        to={l.href}
+                                        className="text-[13px] font-bold tracking-[0.2em] uppercase group block"
+                                    >
+                                        <span className="inline-block group-hover:translate-x-1 transition-transform text-white/40 group-hover:text-white">{l.name}</span>
+                                        <span className="block h-px w-0 group-hover:w-full bg-[#B6FF00] transition-all duration-300 mt-1" />
+                                    </Link>
+                                </motion.div>
                             ))}
                         </nav>
 
@@ -111,7 +121,7 @@ export default function Footer() {
                     <motion.button
                         onClick={handleTop}
                         whileHover={{ y: -8 }}
-                        className="bg-[#B6FF00] text-black font-black text-[12px] py-4 px-8 rounded-2xl flex items-center gap-3 uppercase tracking-[0.14em] shadow-[0_10px_20px_rgba(182,255,0,0.15)] hover:shadow-[0_15px_30px_rgba(182,255,0,0.3)] transition-all duration-300"
+                        className="bg-[#B6FF00] text-black font-black text-[12px] py-4 px-8 rounded-2xl flex items-center gap-3 uppercase tracking-[0.14em] shadow-[0_10px_20_rgba(182,255,0,0.15)] hover:shadow-[0_15px_30px_rgba(182,255,0,0.3)] transition-all duration-300"
                     >
                         Back to Top
                         <ArrowUp className="w-4 h-4" />

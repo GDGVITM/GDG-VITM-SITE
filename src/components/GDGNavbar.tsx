@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { Menu, X, ArrowRight } from 'lucide-react';
 
 export default function GDGNavbar() {
@@ -35,38 +35,43 @@ export default function GDGNavbar() {
             }`}
         >
           {/* Left: Logo */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-2 cursor-pointer group"
-          >
-            <div className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center transition-transform group-hover:scale-110">
-              <img
-                src="/GDG-Sticker-Brackets.gif"
-                alt="GDG Logo"
-                className="w-full h-full object-contain"
-              />
-            </div>
-            <div className="flex flex-col -gap-0.5">
-              <span className={`text-[15px] md:text-xl font-black tracking-tighter uppercase transition-colors duration-500 ${showDark ? 'text-white' : 'text-black'}`}>GDG.</span>
-              <span className={`text-[7px] md:text-[9px] font-bold tracking-widest uppercase transition-colors duration-500 ${showDark ? 'text-white/30' : 'text-black/30'}`}>VIT MUMBAI</span>
-            </div>
-          </motion.div>
+          <Link to="/">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="flex items-center gap-2 cursor-pointer group"
+            >
+              <div className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center transition-transform group-hover:scale-110">
+                <img
+                  src="/GDG-Sticker-Brackets.gif"
+                  alt="GDG Logo"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <div className="flex flex-col -gap-0.5">
+                <span className={`text-[15px] md:text-xl font-black tracking-tighter uppercase transition-colors duration-500 ${showDark ? 'text-white' : 'text-black'}`}>GDG.</span>
+                <span className={`text-[7px] md:text-[9px] font-bold tracking-widest uppercase transition-colors duration-500 ${showDark ? 'text-white/30' : 'text-black/30'}`}>VIT MUMBAI</span>
+              </div>
+            </motion.div>
+          </Link>
 
           {/* Center: Desktop Nav */}
           <div className="hidden md:flex items-center gap-10">
             {navLinks.map((link, i) => (
-              <motion.a
+              <motion.div
                 key={link.name}
-                href={link.href}
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
-                className={`text-[13px] font-bold transition-all uppercase tracking-[0.15em] relative group ${showDark ? 'text-white/50 hover:text-white' : 'text-black/40 hover:text-black'}`}
               >
-                {link.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#B6FF00] group-hover:w-full transition-all duration-300" />
-              </motion.a>
+                <Link
+                  to={link.href}
+                  className={`text-[13px] font-bold transition-all uppercase tracking-[0.15em] relative group ${showDark ? 'text-white/50 hover:text-white' : 'text-black/40 hover:text-black'}`}
+                >
+                  {link.name}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#B6FF00] group-hover:w-full transition-all duration-300" />
+                </Link>
+              </motion.div>
             ))}
           </div>
 
@@ -111,14 +116,14 @@ export default function GDGNavbar() {
           >
             <div className="flex flex-col gap-6">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
+                  to={link.href}
                   className="text-2xl font-black tracking-tighter uppercase"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
               <button className={`mt-4 w-full font-black py-5 rounded-3xl text-lg uppercase tracking-widest shadow-2xl transition-colors ${showDark ? 'bg-[#B6FF00] text-black' : 'bg-black text-white'
                 }`}>
