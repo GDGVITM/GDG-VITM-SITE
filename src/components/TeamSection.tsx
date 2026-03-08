@@ -3,21 +3,21 @@ import { motion } from 'motion/react';
 import { Github, Instagram, Linkedin } from 'lucide-react';
 
 const members = [
-    { name: 'Devdatta Talele', role: 'Organizer Head' },
-    { name: 'Zubiya Quadri', role: 'Associate Lead' },
-    { name: 'Aman Singh', role: 'Open Source Lead' },
-    { name: 'Tanishq Chavan', role: 'Technical Lead' },
-    { name: 'Apurv Deshmukh', role: 'Technical Lead' },
-    { name: 'Ronak Boddu', role: 'Design Lead' },
-    { name: 'Tanmay Gore', role: 'UI/UX Lead' },
-    { name: 'Sarthak Bongane', role: 'Media Lead' },
-    { name: 'Ketan Patil', role: 'Media Lead' },
-    { name: 'Srilakshmi K', role: 'Documentation Lead' },
-    { name: 'Pearl Rathod', role: 'Management Lead' },
-    { name: 'Ishwari Pandit', role: 'Management Lead' },
-    { name: 'Om Nikam', role: 'Finance Lead' },
-    { name: 'Swayam Ballal', role: 'Outreach Lead' },
-    { name: 'Jitesh Gaikwad', role: 'Outreach Lead' },
+    { name: 'Devdatta Talele', role: 'Organizer Head', image: '/Devdatta Talele.jpeg' },
+    { name: 'Zubiya Quadri', role: 'Associate Lead', image: '/Zubia Quadri.jpeg' },
+    { name: 'Aman Singh', role: 'Open Source Lead', image: '/Aman Singh.NEF' },
+    { name: 'Tanishq Chavan', role: 'Technical Lead', image: '/Tanishq Chavan.JPG' },
+    { name: 'Apurv Deshmukh', role: 'Technical Lead', image: '/Apurv.NEF' },
+    { name: 'Ronak Boddu', role: 'Design Lead', image: '/ronak.jpg' },
+    { name: 'Tanmay Gore', role: 'UI/UX Lead', image: '/Tanmay Gore.jpeg' },
+    { name: 'Sarthak Bongane', role: 'Media Lead', image: '/Sarthak Bongane.jpeg' },
+    { name: 'Ketan Patil', role: 'Media Lead', image: '/ketan patil.jpg' },
+    { name: 'Srilakshmi K', role: 'Documentation Lead', image: '/Srilakshmi K.JPG' },
+    { name: 'Pearl Rathod', role: 'Management Lead', image: '/Pearl Rathod.jpg' },
+    { name: 'Ishwari Pandit', role: 'Management Lead', image: '/Ishwari Pandit.jpg' },
+    { name: 'Om Nikam', role: 'Finance Lead', image: '/OM Nikam.NEF' },
+    { name: 'Swayam Ballal', role: 'Outreach Lead', image: '/Swayam Ballal.jpg' },
+    { name: 'Jitesh Gaikwad', role: 'Outreach Lead', image: '/Jitesh Gaikwad.JPG' },
 ];
 
 // 1. CSS Mask Configurations for the 'Tetris' pixel cutouts (8-bit style)
@@ -75,7 +75,7 @@ function TeamMemberCard({ m, i }: { m: any, i: number, key?: any }) {
     const [isHovered, setIsHovered] = React.useState(false);
     // 2. Stagger Logic: Odd (1,3) high, Even (2,4) low
     const isShiftedDown = i % 2 === 1;
-    const photoUrl = `https://i.pravatar.cc/800?u=${encodeURIComponent(m.name)}`;
+    const photoUrl = m.image || `https://i.pravatar.cc/800?u=${encodeURIComponent(m.name)}`;
     const currentMaskPosition = maskPositions[i % 4];
     const currentRadius = cardRadii[i % 4];
 
