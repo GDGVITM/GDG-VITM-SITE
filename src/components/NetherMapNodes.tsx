@@ -49,7 +49,7 @@ export default function NetherMapNodes() {
     const pathLength = useTransform(scrollYProgress, [0, triggers[3]], [0, 1]);
 
     return (
-        <div ref={containerRef} className="relative w-full h-[300vh] z-20">
+        <div ref={containerRef} className="relative w-full h-[300vh] z-0">
             {/* ── THE BURNING PATH ── */}
             {/* Path starts at the top (0vh) and ends at Node 4 (225vh). Total Height = 225vh. */}
             <div className="absolute top-0 left-0 right-0 h-[225vh] pointer-events-none flex justify-center z-10">
@@ -77,7 +77,7 @@ export default function NetherMapNodes() {
                         >
                             {/* Card & Marker Grouped for synced Fade In */}
                             {/* Marker is positioned at 45vh down the section (75% depth) */}
-                            <div className="absolute top-[45vh] -translate-y-1/2 left-0 right-0 w-full flex flex-col items-center pointer-events-none">
+                            <div className="absolute top-[45vh] -translate-y-1/2 left-0 right-0 w-full flex flex-col items-center pointer-events-none z-10">
                                 <NodeWrapper progress={scrollYProgress} trigger={triggers[i]}>
                                     {/* Node Marker (Pulse) - Centered exactly on the ray path */}
                                     <div className="mb-4 flex flex-col items-center z-50">
