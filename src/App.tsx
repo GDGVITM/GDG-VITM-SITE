@@ -12,6 +12,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import GDGNavbar from './components/GDGNavbar';
 import Preloader from './components/Preloader';
+import FloatingChatbot from './components/FloatingChatbot';
 
 const Home = lazy(() => import('./pages/Home'));
 const Gallery = lazy(() => import('./pages/Gallery'));
@@ -103,6 +104,8 @@ export default function App() {
         <main id="main-content" className="relative z-[1]">
           <AnimatedRoutes />
         </main>
+        
+        <FloatingChatbot />
       </div>
     </Router>
   );
