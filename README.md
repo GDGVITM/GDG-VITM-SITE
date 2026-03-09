@@ -1,56 +1,45 @@
-# EOS Web3 Landing Suite
+# GDG VIT Mumbai — Official Website
 
-A high-performance, aesthetically premium landing page experience built for the EOS ecosystem. This project showcases the intersection of speed, scale, and modern Web3 design principles.
+The official website for **Google Developers Group, Vidyalankar Institute of Technology, Mumbai**.
 
-## ✨ Features
+## Tech Stack
 
-- **Dynamic Hero Sections**: Immersive video backgrounds and fluid animations.
-- **Dual Experience**: Seamless transition between GDG (Light) and Web3 (Dark) design systems.
-- **Optimized Performance**: Built with Vite for lightning-fast HMR and build times.
-- **Responsive Design**: Tailored experiences for mobile, tablet, and desktop.
-- **Modern Tech Stack**: React, TypeScript, and Tailwind CSS.
+- **React 19** + **TypeScript**
+- **Vite 6** — build tool
+- **Tailwind CSS v4** — styling
+- **Motion (Framer Motion)** — animations
+- **GSAP + ScrollTrigger** — scroll-linked animations
+- **Lenis** — smooth scrolling
+- **Three.js** — pixel reveal WebGL transition
 
-## 🚀 Getting Started
+## Getting Started
 
-### Prerequisites
+```bash
+npm install
+npm run dev       # http://localhost:3000
+```
 
-- **Node.js**: Version 18.x or higher
-- **npm** or **yarn**
+```bash
+npm run build     # production build → dist/
+npm run preview   # preview production build
+```
 
-### Installation
+## Project Structure
 
-1. **Clone the repository:**
-   ```bash
-   git clone <repository-url>
-   cd eos-web3-landing
-   ```
+```
+src/
+├── components/   # Reusable UI components
+├── pages/        # Route-level pages (Home, Events, Gallery, Spectrum)
+└── index.css     # Global styles + Tailwind theme
 
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+public/
+├── team/
+│   ├── dithered/ # Dithered B&W member portraits (default state)
+│   └── color/    # Full-colour member photos (hover state)
+├── google_dino.png
+└── GDG-Sticker-Brackets.gif
+```
 
-3. **Environment Setup:**
-   Create a `.env.local` file based on `.env.example`:
-   ```bash
-   cp .env.example .env.local
-   ```
-   Add your `GEMINI_API_KEY` if required for AI-powered features.
+## License
 
-4. **Run Development Server:**
-   ```bash
-   npm run dev
-   ```
-   Open [http://localhost:5173](http://localhost:5173) to view the application.
-
-## 🛠 Tech Stack
-
-- **Framework**: [React 18](https://reactjs.org/)
-- **Build Tool**: [Vite](https://vitejs.dev/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **Language**: [TypeScript](https://www.typescriptlang.org/)
-- **Icons**: [Lucide React](https://lucide.dev/)
-
-## 📄 License
-
-This project is licensed under the Apache-2.0 License.
+Apache-2.0 © 2026 GDG VIT Mumbai

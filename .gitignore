@@ -12,6 +12,7 @@ build/
 
 # Misc
 .DS_Store
+**/.DS_Store
 *.pem
 
 # Logs
@@ -38,5 +39,3 @@ yarn-error.log*
 # Vite
 .vite/
 
-
-minecraft_nether
