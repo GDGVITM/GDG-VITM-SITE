@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef, type RefObject } from 'react';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -31,22 +31,16 @@ const fragmentShader = `
     vec2 gridUv = floor(vUv * gridCount) / gridCount;
     
     float h = hash(gridUv);
-    
-    // Threshold drops as we scroll down
     float threshold = uProgress * 1.35; 
-    
-    // Bottom-to-Top pixel reveal
     float alpha = step(threshold, (1.0 - vUv.y) + h * 0.3);
     
-    // Color exactly matching #000000 (Pure Black)
     vec3 color = vec3(0.0, 0.0, 0.0); 
-    
     gl_FragColor = vec4(color, alpha);
   }
 `;
 
 interface PixelRevealTransitionProps {
-    triggerRef?: React.RefObject<HTMLElement | null>;
+    triggerRef?: RefObject<HTMLElement | null>;
 }
 
 export default function PixelRevealTransition({ triggerRef }: PixelRevealTransitionProps) {
@@ -68,7 +62,7 @@ export default function PixelRevealTransition({ triggerRef }: PixelRevealTransit
             vertexShader,
             fragmentShader,
             uniforms: {
-                uProgress: { value: 1 }, // Start at 1 (Fully Invisible)
+                uProgress: { value: 1 },
                 uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
             },
             transparent: true,
@@ -94,31 +88,42 @@ export default function PixelRevealTransition({ triggerRef }: PixelRevealTransit
                     start: "top top",
                     end: "bottom bottom",
                     scrub: true,
-                }
+                },
             });
 
-            // ── 100% SCROLL DISSOLVE ──
-
             mainTl.to(material.uniforms.uProgress, {
-                value: 0, // Goes to 0 (Fully Opaque)
+                value: 0,
                 ease: "none",
-                duration: 1 // Spans 100% of the scroll timeline
+                duration: 1,
             }, 0);
 
             mainTl.fromTo("#page-content",
                 { opacity: 0, y: 50 },
                 { opacity: 1, y: 0, ease: "none", duration: 0.4 },
-                0.6 // Starts exactly as the pixels cover the Hero
+                0.6
             );
         }
 
+        let rafId: number;
+        let needsRender = true;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => { needsRender = entry.isIntersecting; },
+            { threshold: 0 }
+        );
+        if (canvasRef.current) observer.observe(canvasRef.current);
+
         const animate = () => {
-            renderer.render(scene, camera);
-            requestAnimationFrame(animate);
+            if (needsRender) {
+                renderer.render(scene, camera);
+            }
+            rafId = requestAnimationFrame(animate);
         };
-        animate();
+        rafId = requestAnimationFrame(animate);
 
         return () => {
+            cancelAnimationFrame(rafId);
+            observer.disconnect();
             window.removeEventListener('resize', handleResize);
             renderer.dispose();
             material.dispose();
@@ -127,7 +132,7 @@ export default function PixelRevealTransition({ triggerRef }: PixelRevealTransit
     }, [triggerRef]);
 
     return (
-        <div className="absolute inset-0 z-[20] pointer-events-none overflow-hidden">
+        <div className="absolute inset-0 z-[20] pointer-events-none overflow-hidden" aria-hidden="true">
             <canvas ref={canvasRef} className="w-full h-full" />
         </div>
     );

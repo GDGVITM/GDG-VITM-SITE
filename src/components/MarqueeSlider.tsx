@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
 import { ChevronRight } from 'lucide-react';
 import gsap from 'gsap';
@@ -41,11 +41,11 @@ export default function MarqueeSlider() {
     }, []);
 
     return (
-        <section ref={triggerRef} className="relative w-full min-h-screen overflow-hidden bg-transparent">
-            <div className="relative h-screen w-full flex items-center overflow-hidden bg-grid-pattern">
+        <section ref={triggerRef} className="relative w-full min-h-screen overflow-hidden bg-[#0a0b0a]">
+            <div className="relative h-screen w-full flex items-center overflow-hidden">
+                <div className="absolute inset-0 bg-grid-pattern opacity-30" />
 
-                {/* Ambient background glow */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[50vh] bg-gradient-to-b from-transparent via-[#B6FF00]/5 to-transparent blur-[120px] pointer-events-none" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[50vh] bg-gradient-to-b from-transparent via-[#B6FF00]/[0.03] to-transparent blur-[120px] pointer-events-none" />
 
                 <div ref={horizontalRef} className="relative flex items-center whitespace-nowrap will-change-transform px-[20vw]">
                     {words.map((word, i) => (
@@ -55,7 +55,7 @@ export default function MarqueeSlider() {
                             </h2>
                             <div className="flex items-center justify-center">
                                 <ChevronRight
-                                    className="w-24 h-24 md:w-48 md:h-48 text-[#B6FF00] opacity-50"
+                                    className="w-24 h-24 md:w-48 md:h-48 text-[#B6FF00] opacity-30"
                                     strokeWidth={4}
                                 />
                             </div>
@@ -63,11 +63,9 @@ export default function MarqueeSlider() {
                     ))}
                 </div>
 
-                {/* Side Gradients for depth */}
-                <div className="absolute top-0 left-0 w-[20vw] h-full bg-gradient-to-r from-black via-black/80 to-transparent z-10 pointer-events-none" />
-                <div className="absolute top-0 right-0 w-[20vw] h-full bg-gradient-to-l from-black via-black/80 to-transparent z-10 pointer-events-none" />
+                <div className="absolute top-0 left-0 w-[20vw] h-full bg-gradient-to-r from-[#0a0b0a] via-[#0a0b0a]/80 to-transparent z-10 pointer-events-none" />
+                <div className="absolute top-0 right-0 w-[20vw] h-full bg-gradient-to-l from-[#0a0b0a] via-[#0a0b0a]/80 to-transparent z-10 pointer-events-none" />
 
-                {/* Section Indicator */}
                 <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30">
                     <span className="text-[10px] font-bold tracking-[0.3em] text-white uppercase">SCROLL TO EXPLORE</span>
                     <div className="w-[1px] h-12 bg-gradient-to-b from-white to-transparent" />

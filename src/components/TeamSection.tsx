@@ -1,38 +1,39 @@
-import React from 'react';
+import { useState } from 'react';
 import { motion } from 'motion/react';
-import { Github, Instagram, Linkedin } from 'lucide-react';
 
-const members = [
-    { name: 'Devdatta Talele', role: 'Organizer Head', image: '/Devdatta Talele.jpeg' },
-    { name: 'Zubiya Quadri', role: 'Associate Lead', image: '/Zubia Quadri.jpeg' },
-    { name: 'Aman Singh', role: 'Open Source Lead', image: '/Aman Singh.NEF' },
-    { name: 'Tanishq Chavan', role: 'Technical Lead', image: '/Tanishq Chavan.JPG' },
-    { name: 'Apurv Deshmukh', role: 'Technical Lead', image: '/Apurv.NEF' },
-    { name: 'Ronak Boddu', role: 'Design Lead', image: '/ronak.jpg' },
-    { name: 'Tanmay Gore', role: 'UI/UX Lead', image: '/Tanmay Gore.jpeg' },
-    { name: 'Sarthak Bongane', role: 'Media Lead', image: '/Sarthak Bongane.jpeg' },
-    { name: 'Ketan Patil', role: 'Media Lead', image: '/ketan patil.jpg' },
-    { name: 'Srilakshmi K', role: 'Documentation Lead', image: '/Srilakshmi K.JPG' },
-    { name: 'Pearl Rathod', role: 'Management Lead', image: '/Pearl Rathod.jpg' },
-    { name: 'Ishwari Pandit', role: 'Management Lead', image: '/Ishwari Pandit.jpg' },
-    { name: 'Om Nikam', role: 'Finance Lead', image: '/OM Nikam.NEF' },
-    { name: 'Swayam Ballal', role: 'Outreach Lead', image: '/Swayam Ballal.jpg' },
-    { name: 'Jitesh Gaikwad', role: 'Outreach Lead', image: '/Jitesh Gaikwad.JPG' },
+interface TeamMember {
+    name: string;
+    role: string;
+    dithered: string;
+    color: string;
+}
+
+const members: TeamMember[] = [
+    { name: 'Devdatta Talele', role: 'Organizer Head', dithered: '/team/dithered/devdatta.png', color: '/team/color/Organizer.png' },
+    { name: 'Zubiya Quadri', role: 'Associate Lead', dithered: '/team/dithered/zubiya.png', color: '/team/color/Co.png' },
+    { name: 'Aman Singh', role: 'Open Source Lead', dithered: '/team/dithered/aman.png', color: '/team/color/OSS.png' },
+    { name: 'Tanishq Chavan', role: 'Technical Lead', dithered: '/team/dithered/tanishq.png', color: '/team/color/TECH.png' },
+    { name: 'Apurv Deshmukh', role: 'Technical Lead', dithered: '/team/dithered/apurv.png', color: '/team/color/Tech (2).png' },
+    { name: 'Ronak Boddu', role: 'Design Lead', dithered: '/team/dithered/ronak.png', color: '/team/color/Design.png' },
+    { name: 'Tanmay Gore', role: 'UI/UX Lead', dithered: '/team/dithered/tanmay.png', color: '/team/color/UI.png' },
+    { name: 'Sarthak Bongane', role: 'Media Lead', dithered: '/team/dithered/sarthak.png', color: '/team/color/MEDIA.png' },
+    { name: 'Ketan Patil', role: 'Media Lead', dithered: '/team/dithered/ketan.png', color: '/team/color/Media (2).png' },
+    { name: 'Srilakshmi K', role: 'Documentation Lead', dithered: '/team/dithered/srilakshmi.png', color: '/team/color/DOCX.png' },
+    { name: 'Pearl Rathod', role: 'Management Lead', dithered: '/team/dithered/pearl.png', color: '/team/color/EVENT.png' },
+    { name: 'Ishwari Pandit', role: 'Management Lead', dithered: '/team/dithered/ishwari.png', color: '/team/color/Event (2).png' },
+    { name: 'Om Nikam', role: 'Finance Lead', dithered: '/team/dithered/om.png', color: '/team/color/FNS.png' },
+    { name: 'Swayam Ballal', role: 'Outreach Lead', dithered: '/team/dithered/swayam.png', color: '/team/color/OUTREACH.png' },
+    { name: 'Jitesh Gaikwad', role: 'Outreach Lead', dithered: '/team/color/Outreach (2).png', color: '/team/color/Outreach (2).png' },
 ];
 
-// 1. CSS Mask Configurations for the 'Tetris' pixel cutouts (8-bit style)
-const BOX_SIZE = "24px"; // Matches background grid cells
+const BOX_SIZE = "24px";
 const MASK_IMAGE = "linear-gradient(black, black), linear-gradient(black, black), linear-gradient(black, black), linear-gradient(black, black), linear-gradient(black, black)";
 const MASK_SIZE = `100% 100%, ${BOX_SIZE} ${BOX_SIZE}, ${BOX_SIZE} ${BOX_SIZE}, ${BOX_SIZE} ${BOX_SIZE}, ${BOX_SIZE} ${BOX_SIZE}`;
 
 const maskPositions = [
-    // Top-Left (Card 1)
     `0 0, 0 0, ${BOX_SIZE} 0, ${BOX_SIZE} ${BOX_SIZE}, 0 calc(${BOX_SIZE} * 2)`,
-    // Bottom-Left (Card 2)
     `0 0, 0 100%, ${BOX_SIZE} 100%, ${BOX_SIZE} calc(100% - ${BOX_SIZE}), 0 calc(100% - ${BOX_SIZE} * 2)`,
-    // Top-Right (Card 3)
     `0 0, 100% 0, calc(100% - ${BOX_SIZE}) 0, calc(100% - ${BOX_SIZE}) ${BOX_SIZE}, 100% calc(${BOX_SIZE} * 2)`,
-    // Bottom-Right (Card 4)
     `0 0, 100% 100%, calc(100% - ${BOX_SIZE}) 100%, calc(100% - ${BOX_SIZE}) calc(100% - ${BOX_SIZE}), 100% calc(100% - ${BOX_SIZE} * 2)`
 ];
 
@@ -43,39 +44,9 @@ const cardRadii = [
     "rounded-tl-[40px] rounded-bl-[40px] rounded-tr-[40px] rounded-br-none"
 ];
 
-const PixelGrid = ({ isHovered }: { isHovered: boolean }) => {
-    const GRID = 7;
-    return (
-        <div className="absolute inset-0 grid grid-cols-7 grid-rows-7 z-20 pointer-events-none">
-            {Array.from({ length: GRID * GRID }).map((_, idx) => {
-                const r = Math.floor(idx / GRID);
-                const c = idx % GRID;
-                return (
-                    <motion.div
-                        key={idx}
-                        initial={{ opacity: 1, scale: 1 }}
-                        animate={{
-                            opacity: isHovered ? 0 : 1,
-                            scale: isHovered ? 0 : 1,
-                        }}
-                        transition={{
-                            duration: 0.4,
-                            delay: (r + c) * 0.05,
-                            ease: [0.4, 0, 0.2, 1]
-                        }}
-                        className="bg-[#1A1C1F] border-[0.2px] border-white/5"
-                    />
-                );
-            })}
-        </div>
-    );
-};
-
-function TeamMemberCard({ m, i }: { m: any, i: number, key?: any }) {
-    const [isHovered, setIsHovered] = React.useState(false);
-    // 2. Stagger Logic: Odd (1,3) high, Even (2,4) low
+function TeamMemberCard({ m, i }: { m: TeamMember; i: number }) {
+    const [isHovered, setIsHovered] = useState(false);
     const isShiftedDown = i % 2 === 1;
-    const photoUrl = m.image || `https://i.pravatar.cc/800?u=${encodeURIComponent(m.name)}`;
     const currentMaskPosition = maskPositions[i % 4];
     const currentRadius = cardRadii[i % 4];
 
@@ -89,9 +60,8 @@ function TeamMemberCard({ m, i }: { m: any, i: number, key?: any }) {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            {/* Main Interactive Card Body with CSS Mask Cutout */}
             <div
-                className={`relative w-full aspect-[4/5] bg-white/5 overflow-hidden shadow-inner border border-white/5 transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-black/50 ${currentRadius}`}
+                className={`relative w-full aspect-[4/5] bg-[#0d0e0d] overflow-hidden border border-white/5 transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-black/50 ${currentRadius}`}
                 style={{
                     WebkitMaskImage: MASK_IMAGE,
                     maskImage: MASK_IMAGE,
@@ -105,59 +75,46 @@ function TeamMemberCard({ m, i }: { m: any, i: number, key?: any }) {
                     maskComposite: 'exclude'
                 }}
             >
-
-                {/* Image layer (revealed on hover) */}
-                <div className="absolute inset-0 bg-[#0D0D0D]">
+                {/* Color image underneath — revealed on hover */}
+                <div className="absolute inset-0 z-0">
                     <img
-                        src={photoUrl}
-                        alt={m.name}
-                        className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 scale-105 group-hover:scale-100"
+                        src={m.color}
+                        alt={`${m.name} color`}
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-full object-cover object-top scale-[1.35] origin-top transition-transform duration-700 group-hover:scale-[1.25]"
                     />
                 </div>
 
-                {/* Pixel Overlay (evaporates on hover) */}
-                <PixelGrid isHovered={isHovered} />
+                {/* Dithered image — multiply blend makes white bg → card dark bg */}
+                <motion.div
+                    className="absolute inset-0 z-10"
+                    animate={{ opacity: isHovered ? 0 : 1 }}
+                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                >
+                    <img
+                        src={m.dithered}
+                        alt={`${m.name} dithered`}
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-full object-cover object-top scale-[1.35] origin-top brightness-[1.15]"
+                        style={{ mixBlendMode: 'multiply' }}
+                    />
+                </motion.div>
 
-                {/* Name & Role Center Control (fades out on hover) */}
-                <div className="absolute inset-0 flex items-center justify-center p-8 z-30">
-                    <motion.div
-                        animate={{
-                            opacity: isHovered ? 0 : 1,
-                            scale: isHovered ? 0.8 : 1,
-                            y: isHovered ? -20 : 0
-                        }}
-                        transition={{ duration: 0.4, ease: "easeOut" }}
-                        className="flex flex-col items-center text-center gap-1 drop-shadow-2xl"
-                    >
-                        <h3 className="text-[26px] md:text-[30px] font-black text-white leading-tight tracking-tighter">
+                {/* Bottom gradient for text readability */}
+                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-15 pointer-events-none" />
+
+                {/* Name & Role */}
+                <div className="absolute inset-0 flex items-end p-6 z-20">
+                    <div className="flex flex-col gap-1 drop-shadow-2xl">
+                        <h3 className="text-[22px] md:text-[26px] font-polysans-bold font-black text-white leading-tight tracking-tighter">
                             {m.name}
                         </h3>
-                        <p className="text-[13px] text-white/50 font-bold uppercase tracking-[0.1em]">
+                        <p className={`text-[12px] font-polysans-bold font-bold uppercase tracking-[0.12em] transition-colors duration-500 ${isHovered ? 'text-[#B6FF00]' : 'text-white/60'}`}>
                             {m.role}
                         </p>
-                    </motion.div>
-                </div>
-            </div>
-
-            {/* Social Buttons Tag (Maintains position and style) */}
-            <div className={`absolute -bottom-10 left-1/2 -translate-x-1/2 bg-[#1A1C1F] rounded-[24px] p-4 shadow-[0_20px_40px_rgba(0,0,0,0.4)] z-40 border border-white/5 flex items-center justify-center transition-all duration-500 ${isHovered ? 'scale-110 shadow-black/60' : ''}`}>
-                <div className="flex gap-2.5">
-                    {[
-                        { Icon: Github, color: 'hover:text-white', label: 'GitHub' },
-                        { Icon: Instagram, color: 'hover:text-[#E4405F]', label: 'Instagram' },
-                        { Icon: Linkedin, color: 'hover:text-[#0077B5]', label: 'LinkedIn' }
-                    ].map((social, idx) => (
-                        <a
-                            key={idx}
-                            href="#"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label={social.label}
-                            className="w-10 h-10 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center group/icon transition-all duration-300 hover:bg-white/10 hover:scale-110 active:scale-95 shadow-lg"
-                        >
-                            <social.Icon size={18} className={`text-white/70 transition-colors ${social.color}`} strokeWidth={2} />
-                        </a>
-                    ))}
+                    </div>
                 </div>
             </div>
         </motion.div>
@@ -165,14 +122,15 @@ function TeamMemberCard({ m, i }: { m: any, i: number, key?: any }) {
 }
 
 export default function TeamSection() {
-    // Show all members from the updated list
     const displayMembers = members;
 
     return (
-        <section id="team-section" className="relative w-full bg-transparent bg-grid-pattern py-24 md:py-40 overflow-hidden">
-            <div className="max-w-[1440px] mx-auto px-6 md:px-[60px]">
+        <section id="team-section" className="relative w-full bg-[#0a0b0a] py-24 md:py-40 overflow-hidden">
+            <div className="absolute inset-0 bg-grid-pattern opacity-40" />
 
-                {/* Heading */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+
+            <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-[60px]">
                 <div className="text-center mb-32">
                     <div className="flex items-center justify-center gap-2 mb-6">
                         <div className="w-3 h-3 bg-[#B6FF00]" />
@@ -180,29 +138,39 @@ export default function TeamSection() {
                             TEAM MEMBERS
                         </span>
                     </div>
-                    <h2 className="text-[48px] md:text-[80px] font-extrabold tracking-tighter text-white leading-[1.05] mb-4">
+                    <h2 className="text-[48px] md:text-[80px] font-polysans-wide font-extrabold tracking-tighter text-white leading-[1.05] mb-4">
                         The Minds <br /> Behind the Work
                     </h2>
                 </div>
 
-                {/* Grid with staggered layout */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-32">
+                <div className="relative w-[100vw] left-1/2 -translate-x-1/2 overflow-hidden flex items-center bg-[#B6FF00] py-4 mb-32 -rotate-2 shadow-[0_0_40px_rgba(182,255,0,0.3)] z-20 border-y-4 border-black group">
+                    <div className="flex whitespace-nowrap animate-marquee group-hover:animation-play-state-paused">
+                        {[...Array(6)].map((_, i) => (
+                            <div key={i} className="flex shrink-0 gap-8 items-center px-4">
+                                <span className="font-polysans-wide text-5xl uppercase tracking-tighter font-extrabold text-black">The Minds Behind</span>
+                                <div className="w-4 h-4 bg-black" />
+                                <span className="font-polysans-wide text-5xl uppercase tracking-tighter font-extrabold text-transparent" style={{ WebkitTextStroke: '2px black' }}>Team Members</span>
+                                <div className="w-4 h-4 bg-black" />
+                            </div>
+                        ))}
+                    </div>
+                </div>
 
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
                     {displayMembers.map((m, i) => (
-                        <TeamMemberCard key={i} m={m} i={i} />
+                        <TeamMemberCard key={m.name} m={m} i={i} />
                     ))}
 
-                    {/* Special CTA Card - Follows stagger pattern */}
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="relative bg-[#2A2D32] bg-gradient-to-br from-[#35393f] to-[#1A1C1F] rounded-[40px] p-10 flex flex-col justify-between h-full min-h-[440px] shadow-2xl overflow-hidden border border-white/5 mt-12 lg:mt-24"
+                        className="relative bg-[#141514] bg-gradient-to-br from-[#1a1b1a] to-[#0d0e0d] rounded-[40px] p-10 flex flex-col justify-between h-full min-h-[440px] shadow-2xl overflow-hidden border border-white/5 mt-12 lg:mt-24"
                     >
                         <div>
                             <div className="w-10 h-10 bg-[#B6FF00] mb-8 shadow-[0_0_20px_rgba(182,255,0,0.4)]" />
                             <div className="flex flex-col gap-4">
-                                <h3 className="text-[32px] font-bold text-white tracking-tighter leading-[1.1]">
+                                <h3 className="text-[32px] font-polysans-wide font-bold text-white tracking-tighter leading-[1.1]">
                                     We're Searching <br /> For Talents
                                 </h3>
                                 <p className="text-[15px] text-white/40 font-medium leading-relaxed">
@@ -221,12 +189,11 @@ export default function TeamSection() {
                                         <div className="w-1 h-1 bg-black" />
                                     </div>
                                 </div>
-                                <span className="text-white group-hover:text-black font-extrabold tracking-tight pr-4">Apply Now</span>
+                                <span className="text-white group-hover:text-black font-polysans-bold font-extrabold tracking-tight pr-4">Apply Now</span>
                             </div>
                         </div>
 
-                        <div className="absolute inset-0 opacity-[0.05] pointer-events-none"
-                            style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
+                        <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-grid-pattern" />
                     </motion.div>
                 </div>
             </div>

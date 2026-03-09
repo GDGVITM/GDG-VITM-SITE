@@ -1,51 +1,60 @@
-import React from 'react';
 import { motion } from 'motion/react';
 
-const desktopBlocks = [
-    { width: '10%', height: '70%' },
-    { width: '10%', height: '55%' },
-    { width: '10%', height: '40%' },
-    { width: '40%', height: '30%' },
-    { width: '10%', height: '40%' },
-    { width: '10%', height: '60%' },
-    { width: '15%', height: '85%' },
-];
-
-const mobileBlocks = [
-    { width: '25%', height: '60%' },
-    { width: '30%', height: '85%' },
-    { width: '20%', height: '50%' },
-    { width: '25%', height: '75%' },
-];
-
 export default function MinecraftMountains() {
-    const [isMobile, setIsMobile] = React.useState(false);
+  return (
+    <div className="absolute bottom-0 left-0 right-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+      <svg
+        viewBox="0 0 1440 320"
+        className="w-full h-auto block"
+        preserveAspectRatio="none"
+      >
+        <defs>
+          <linearGradient id="mountain-grad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#B6FF00" stopOpacity="0.15" />
+            <stop offset="100%" stopColor="#000" stopOpacity="0" />
+          </linearGradient>
+        </defs>
 
-    React.useEffect(() => {
-        const checkMobile = () => setIsMobile(window.innerWidth < 768);
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
-        return () => window.removeEventListener('resize', checkMobile);
-    }, []);
+        <motion.path
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+          d="M0,320 L0,240 L80,200 L160,240 L240,180 L320,220 L400,160 L480,200 L560,140 L640,180 L720,120 L800,160 L880,100 L960,140 L1040,80 L1120,120 L1200,160 L1280,100 L1360,140 L1440,180 L1440,320 Z"
+          fill="url(#mountain-grad)"
+          className="opacity-60"
+        />
 
-    const blocks = isMobile ? mobileBlocks : desktopBlocks;
+        <motion.path
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          d="M0,320 L0,280 L120,240 L240,270 L360,220 L480,260 L600,200 L720,240 L840,190 L960,230 L1080,200 L1200,240 L1320,210 L1440,250 L1440,320 Z"
+          fill="#0d0e0d"
+          className="opacity-80"
+        />
+      </svg>
 
-    return (
-        <div className="absolute bottom-0 left-0 w-full h-[400px] md:h-screen pointer-events-none z-0 flex items-end opacity-90 overflow-hidden">
-            {blocks.map((block, i) => (
-                <motion.div
-                    key={`${isMobile ? 'm' : 'd'}-${i}`}
-                    initial={{ y: "100%" }}
-                    animate={{ y: 0 }}
-                    transition={{
-                        duration: 1.5,
-                        delay: i * 0.1,
-                        ease: [0.16, 1, 0.3, 1]
-                    }}
-                    style={{ width: block.width, height: block.height }}
-                    className="relative bg-[#B6FF00] border-t-8 border-white/5"
-                />
-            ))}
-        </div>
-    );
+      {[...Array(12)].map((_, i) => (
+        <motion.div
+          key={i}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5 + i * 0.1 }}
+          className="absolute bottom-0"
+          style={{ left: `${i * 8 + Math.random() * 4}%` }}
+        >
+          <div
+            className="bg-[#B6FF00]/10 border border-[#B6FF00]/5"
+            style={{
+              width: `${16 + Math.random() * 24}px`,
+              height: `${40 + Math.random() * 80}px`,
+            }}
+          />
+        </motion.div>
+      ))}
+    </div>
+  );
 }

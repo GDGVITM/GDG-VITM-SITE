@@ -1,136 +1,26 @@
-// /**
-//  * @license
-//  * SPDX-License-Identifier: Apache-2.0
-//  */
-
-// import { useEffect } from 'react';
-// import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-// import Lenis from 'lenis';
-
-// import Spectrum from './pages/Spectrum';
-
-// import GDGNavbar from './components/GDGNavbar';
-// import GDGHero from './components/GDGHero';
-// import TrustedStrip from './components/TrustedStrip';
-// import AboutSection from './components/AboutSection';
-// import MarqueeSlider from './components/MarqueeSlider';
-// import TeamSection from './components/TeamSection';
-// import FAQSection from './components/FAQSection';
-// import CTASection from './components/CTASection';
-// import Footer from './components/Footer';
-// import PixelRevealTransition from './components/PixelRevealTransition';
-// import MinecraftNightSky from './components/MinecraftNightSky';
-// import MinecraftDeepslateCave from './components/MinecraftDeepslateCave';
-// import { useRef } from 'react';
-// import gsap from 'gsap';
-// import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-// gsap.registerPlugin(ScrollTrigger);
-
-// export default function App() {
-//   const heroSectionRef = useRef<HTMLElement>(null);
-//   useEffect(() => {
-//     const lenis = new Lenis({
-//       duration: 1.2,
-//       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-//       smoothWheel: true,
-//       wheelMultiplier: 1.0,
-//       touchMultiplier: 2,
-//     });
-
-//     // Synchronize Lenis with ScrollTrigger
-//     lenis.on('scroll', ScrollTrigger.update);
-
-//     function raf(time: number) {
-//       lenis.raf(time);
-//       requestAnimationFrame(raf);
-//     }
-//     requestAnimationFrame(raf);
-
-//     return () => {
-//       lenis.destroy();
-//     };
-//   }, []);
-
-//   return (
-//     <main className="w-full selection:bg-[#B6FF00] selection:text-black font-sans">
-//       <MinecraftNightSky />
-//       <MinecraftDeepslateCave />
-//       {/* ── Hero ── */}
-//       <GDGNavbar />
-//       <section ref={heroSectionRef} className="relative w-full h-[200vh] bg-transparent">
-//         <div className="sticky top-0 h-screen w-full overflow-hidden">
-//           {/* Force Refresh: 2024-02-24 00:15 */}
-//           <GDGHero />
-//           {/* ── Pixel Reveal Transition Overlay ── */}
-//           <PixelRevealTransition triggerRef={heroSectionRef} />
-//         </div>
-//       </section>
-
-
-//       {/* ── Overlapping Layer (Slides OVER the Hero) ── */}
-//       <div id="page-content" className="relative z-[50] -mt-[100vh] bg-transparent">
-//         <TrustedStrip />
-//         <AboutSection />
-//       </div>
-
-//       {/* ── Flowing Content ── */}
-//       <div className="relative z-[50] bg-transparent">
-//         {/* ── 3. Marquee Slider ── */}
-//         <MarqueeSlider />
-//         {/* ── 6. CTA / Quote ── */}
-//         <CTASection />
-//         {/* ── 4. Team Members ── */}
-//         <TeamSection />
-
-//         {/* ── 5. FAQs ── */}
-//         <FAQSection />
-
-
-
-//         {/* ── 7. Footer ── */}
-//         <Footer />
-//       </div>
-//     </main>
-//   );
-// }
-
-
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useCallback, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'motion/react';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-// Layout Components
 import GDGNavbar from './components/GDGNavbar';
-import Footer from './components/Footer';
-import MinecraftNightSky from './components/MinecraftNightSky';
-import MinecraftDeepslateCave from './components/MinecraftDeepslateCave';
+import Preloader from './components/Preloader';
 
-// Page Components
-import Gallery from './pages/Gallery';
-import Events from './pages/Events';
-import Spectrum from './pages/Spectrum';
-
-// Home Specific Components
-import GDGHero from './components/GDGHero';
-import TrustedStrip from './components/TrustedStrip';
-import AboutSection from './components/AboutSection';
-import MarqueeSlider from './components/MarqueeSlider';
-import TeamSection from './components/TeamSection';
-import FAQSection from './components/FAQSection';
-import CTASection from './components/CTASection';
-import PixelRevealTransition from './components/PixelRevealTransition';
+const Home = lazy(() => import('./pages/Home'));
+const Gallery = lazy(() => import('./pages/Gallery'));
+const Events = lazy(() => import('./pages/Events'));
+const Spectrum = lazy(() => import('./pages/Spectrum'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Helper component to reset scroll on route change
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -139,39 +29,37 @@ function ScrollToTop() {
   return null;
 }
 
-// Separate component for the Home page content
-function Home() {
-  const heroSectionRef = useRef<HTMLElement>(null);
+function PageLoader() {
   return (
-    <>
-      <section ref={heroSectionRef} className="relative w-full h-[200vh] bg-transparent">
-        <div className="sticky top-0 h-screen w-full overflow-hidden">
-          <GDGHero />
-          <PixelRevealTransition triggerRef={heroSectionRef} />
-        </div>
-      </section>
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="w-8 h-8 bg-[#B6FF00] animate-pulse" />
+    </div>
+  );
+}
 
-      <div id="page-content" className="relative z-[50] -mt-[100vh] bg-transparent">
-        <TrustedStrip />
-        <AboutSection />
-      </div>
+function AnimatedRoutes() {
+  const location = useLocation();
 
-      <div className="relative z-[50] bg-transparent">
-        <MarqueeSlider />
-        <CTASection />
-        <TeamSection />
-        <FAQSection />
-        <Footer />
-      </div>
-    </>
+  return (
+    <AnimatePresence mode="wait">
+      <Suspense fallback={<PageLoader />} key={location.pathname}>
+        <Routes location={location}>
+          <Route path="/" element={<Home />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/spectrum" element={<Spectrum />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
+    </AnimatePresence>
   );
 }
 
 export default function App() {
-  useEffect(() => {
+  const initLenis = useCallback(() => {
     const lenis = new Lenis({
       duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       wheelMultiplier: 1.0,
       touchMultiplier: 2,
@@ -179,35 +67,43 @@ export default function App() {
 
     lenis.on('scroll', ScrollTrigger.update);
 
+    let rafId: number;
     function raf(time: number) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     }
-    requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
 
     return () => {
+      cancelAnimationFrame(rafId);
       lenis.destroy();
     };
   }, []);
 
+  useEffect(() => {
+    const cleanup = initLenis();
+    return cleanup;
+  }, [initLenis]);
+
   return (
     <Router>
       <ScrollToTop />
-      <main className="w-full selection:bg-[#B6FF00] selection:text-black font-sans">
-        {/* Persistent Background Elements */}
-        <MinecraftNightSky />
-        <MinecraftDeepslateCave />
-        
-        {/* Persistent Navbar */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:bg-[#B6FF00] focus:text-black focus:px-4 focus:py-2 focus:rounded-lg focus:font-bold"
+      >
+        Skip to content
+      </a>
+      <Preloader />
+      <div className="w-full font-sans relative">
+        <div className="noise-overlay" aria-hidden="true" />
+        <div className="fixed inset-0 z-0 diamond-grid pointer-events-none opacity-40" aria-hidden="true" />
         <GDGNavbar />
 
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/gallery" element={<Gallery/>} />
-          <Route path="/events" element={<Events />} /> 
-          <Route path="/spectrum" element={<Spectrum />} />
-        </Routes>
-      </main>
+        <main id="main-content" className="relative z-[1]">
+          <AnimatedRoutes />
+        </main>
+      </div>
     </Router>
   );
 }

@@ -3,53 +3,232 @@
 @theme {
   --font-sans: "Urbanist", ui-sans-serif, system-ui, sans-serif;
   --font-space: "Space Grotesk", sans-serif;
+  --color-accent: #B6FF00;
+  --color-accent-spectrum: #ff4d00;
+  --color-surface: #0d0e0d;
+  --color-surface-raised: #141514;
+  --color-cream: #FEFCD9;
 }
 
 body {
-  font-family: var(--font-sans);
-  background-color: #000;
-  color: #fff;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    font-family: var(--font-sans);
+    background-color: var(--color-surface);
+    color: #fff;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scrollbar-color: #ffffff1a var(--color-surface);
+    scrollbar-width: none;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+::selection {
+    background-color: #B6FF00;
+    color: #000;
 }
 
 html.lenis {
-  height: auto;
+    height: auto;
 }
 
 .lenis.lenis-smooth {
-  scroll-behavior: auto;
+    scroll-behavior: auto;
 }
 
 .lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
+    overscroll-behavior: contain;
 }
 
 .lenis.lenis-stopped {
-  overflow: hidden;
+    overflow: hidden;
 }
 
+/* Dithered grid pattern - subtle dot matrix */
 .bg-grid-pattern {
-  background-size: 50px 50px;
-  background-image: linear-gradient(to right, #ffffff0d 1px, transparent 1px),
-    linear-gradient(to bottom, #ffffff0d 1px, transparent 1px);
+    background-size: 20px 20px;
+    background-image: radial-gradient(circle, #ffffff08 1px, transparent 1px);
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
+.page-section {
+    scroll-margin-top: 84px;
 }
 
-::-webkit-scrollbar-track {
-  background: #000;
+/* Conic gradient rotating border */
+.conic-border {
+    position: relative;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #ffffff1a;
-  border-radius: 10px;
+.conic-border::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    z-index: -1;
+    border-radius: inherit;
+    background: conic-gradient(from var(--conic-angle, 0deg),
+            #B6FF00,
+            #6B9E00,
+            #B6FF00,
+            #050505,
+            #B6FF00);
+    animation: conic-rotate 4s linear infinite;
+    opacity: 0;
+    transition: opacity 0.5s ease;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #B6FF00;
+.conic-border:hover::before,
+.group:hover .conic-border::before {
+    opacity: 1;
+}
+
+@keyframes conic-rotate {
+    to {
+        --conic-angle: 360deg;
+    }
+}
+
+@property --conic-angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .lenis.lenis-smooth {
+        scroll-behavior: auto;
+    }
+}
+
+:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+/* ─── Noise / Dithered Overlay (SVG filter technique from acm-vit-ref) ─── */
+.noise-overlay {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9998;
+    opacity: 0.35;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 300px 300px;
+}
+
+/* ─── Typography Utilities (original font stack) ─── */
+.font-display {
+    font-family: "Space Grotesk", sans-serif;
+}
+
+.font-polysans-bold {
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 700;
+}
+
+.font-polysans-wide {
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 800;
+}
+
+/* ─── Dithered Section Separator ─── */
+.dither-divider {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Crect width='4' height='4' fill='%23B6FF0015'/%3E%3Crect x='4' y='4' width='4' height='4' fill='%23B6FF0015'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    opacity: 0.5;
+}
+
+/* ─── Global Marquee Animation ─── */
+@keyframes marquee {
+    0% {
+        transform: translateX(0%);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.animate-marquee {
+    animation: marquee 15s linear infinite;
+}
+
+/* ─── Scanline effect for sections ─── */
+.scanlines::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.04;
+    background-image: linear-gradient(
+        rgba(18, 16, 16, 0) 50%,
+        rgba(0, 0, 0, 0.25) 50%
+    );
+    background-size: 100% 4px;
+}
+
+/* ─── Glitch text hover effect ─── */
+.glitch-text {
+    position: relative;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.glitch-text:hover::before {
+    opacity: 0.8;
+    color: #B6FF00;
+    clip-path: inset(20% 0 40% 0);
+    transform: translate(-2px, 2px);
+}
+
+.glitch-text:hover::after {
+    opacity: 0.8;
+    color: #ff4d00;
+    clip-path: inset(60% 0 10% 0);
+    transform: translate(2px, -2px);
+}
+
+/* ─── Diamond grid background (inspired by acm-vit-ref) ─── */
+.diamond-grid {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cpath d='M20 0L40 20L20 40L0 20Z' fill='none' stroke='%23ffffff' stroke-width='0.5' opacity='0.03'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+}
+
+/* ─── Outlined text utility ─── */
+.text-outline {
+    -webkit-text-stroke: 2px currentColor;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ─── Pixel cursor ─── */
+.pixel-cursor {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect width='16' height='16' fill='%23B6FF00'/%3E%3C/svg%3E") 8 8, auto;
 }

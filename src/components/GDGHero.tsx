@@ -1,7 +1,6 @@
-import React from 'react';
 import { motion } from 'motion/react';
-
 import { ChevronRight, ChevronLeft } from 'lucide-react';
+import ScrambleText from './ScrambleText';
 
 const MinecraftSun = () => (
   <motion.div
@@ -40,24 +39,12 @@ export default function Hero() {
 
       {/* ── Minecraft Elements ── */}
       <MinecraftSun />
-      {/* High altitude, small, slow clouds */}
-      <MinecraftCloud delay={0} top="10%" opacity={0.1} duration={160} scale={0.6} />
-      <MinecraftCloud delay={40} top="15%" opacity={0.15} duration={140} scale={0.7} />
-      <MinecraftCloud delay={80} top="12%" opacity={0.12} duration={150} scale={0.5} />
-
-      {/* Mid altitude clouds */}
+      <MinecraftCloud delay={0} top="12%" opacity={0.12} duration={150} scale={0.6} />
       <MinecraftCloud delay={20} top="25%" opacity={0.3} duration={100} scale={1} />
-      <MinecraftCloud delay={55} top="35%" opacity={0.25} duration={110} scale={0.9} />
-      <MinecraftCloud delay={10} top="45%" opacity={0.2} duration={130} scale={1.1} />
-      <MinecraftCloud delay={75} top="30%" opacity={0.35} duration={95} scale={0.8} />
-
-      {/* Lower, larger clouds */}
-      <MinecraftCloud delay={30} top="55%" opacity={0.4} duration={80} scale={1.3} />
+      <MinecraftCloud delay={55} top="40%" opacity={0.25} duration={110} scale={0.9} />
+      <MinecraftCloud delay={30} top="55%" opacity={0.35} duration={80} scale={1.3} />
       <MinecraftCloud delay={65} top="65%" opacity={0.3} duration={90} scale={1.2} />
-      <MinecraftCloud delay={5} top="50%" opacity={0.25} duration={115} scale={1.4} />
-      <MinecraftCloud delay={45} top="70%" opacity={0.2} duration={105} scale={1.1} />
-      <MinecraftCloud delay={90} top="60%" opacity={0.3} duration={85} scale={1.5} />
-      <MinecraftCloud delay={15} top="20%" opacity={0.4} duration={70} scale={0.9} />
+      <MinecraftCloud delay={15} top="20%" opacity={0.35} duration={70} scale={0.9} />
 
       <div id="hero-content" className="relative w-full flex flex-col items-center justify-center flex-1 py-6 sm:py-10 -mt-4 sm:-mt-6 md:-mt-8">
 
@@ -136,7 +123,7 @@ export default function Hero() {
                 className="font-black leading-[0.88] tracking-tighter text-black text-center md:text-left font-space"
                 style={{ fontSize: 'clamp(48px, 5.5vw, 82px)' }}
               >
-                ON<br />CAMPUS
+                <ScrambleText text="ON" /><br /><ScrambleText text="CAMPUS" />
               </h1>
 
               {/* Left arrows — below ON CAMPUS */}
@@ -169,6 +156,8 @@ export default function Hero() {
               <img
                 src="/google_dino.png"
                 alt="Chrome Dino"
+                loading="eager"
+                fetchPriority="high"
                 className="rounded-[24px] shadow-[0_20px_60px_rgba(0,0,0,0.10)] object-cover block"
                 style={{
                   width: 'clamp(200px, 26vw, 300px)',
@@ -206,7 +195,7 @@ export default function Hero() {
                 className="font-black leading-[0.88] tracking-tighter text-black text-center md:text-right font-space"
                 style={{ fontSize: 'clamp(48px, 5.5vw, 82px)' }}
               >
-                VIT,<br />MUMBAI
+                <ScrambleText text="VIT," /><br /><ScrambleText text="MUMBAI" />
               </h1>
             </motion.div>
 
