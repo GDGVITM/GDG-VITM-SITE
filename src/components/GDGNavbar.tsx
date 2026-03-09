@@ -65,72 +65,78 @@ export default function GDGNavbar() {
 
   const showDark = isScrolled || location.pathname !== '/';
 
+  // Common styles for the pill aesthetics
+  const glassPanelDark = 'bg-black/30 border-white/10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-white';
+  const glassPanelLight = 'bg-white/40 border-black/5 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.05)] text-black';
+  const glassClass = showDark ? glassPanelDark : glassPanelLight;
+
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${isScrolled ? 'pt-0 md:pt-2' : 'pt-2 md:pt-2'}`}
+      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 pt-4 md:pt-5 pointer-events-none`}
       aria-label="Main navigation"
     >
-      <div className="max-w-[1440px] mx-auto px-4 md:px-[60px]">
-        <motion.div
-          layout
-          className={`relative flex items-center justify-between px-6 md:px-8 py-3 md:py-4 rounded-[24px] md:rounded-3xl border transition-all duration-500 ${showDark
-              ? 'bg-black/60 backdrop-blur-xl border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.3)] text-white'
-              : 'bg-white/40 backdrop-blur-xl border-black/5 shadow-[0_4px_20px_rgba(0,0,0,0.03)] text-black'
-            }`}
+      <div className="max-w-[1440px] mx-auto px-4 md:px-[60px] flex items-center justify-between pointer-events-auto">
+        
+        {/* LEFT: LOGO PILL */}
+        <Link to="/" aria-label="GDG VIT Mumbai Home" className="relative z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B6FF00] rounded-full">
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            className={`flex items-center gap-2.5 px-2 md:px-3 py-2 rounded-full border transition-colors duration-500 ${glassClass}`}
+          >
+            <div className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center">
+              <img
+                src="/GDG-Sticker-Brackets.gif"
+                alt="GDG Logo"
+                className="w-full h-full object-contain"
+                width={40}
+                height={40}
+              />
+            </div>
+            <div className="flex flex-col pr-3 md:pr-4">
+              <span
+                className={`text-[12px] md:text-[14px] font-black tracking-tighter uppercase leading-none transition-colors duration-500 ${
+                  showDark ? 'text-white' : 'text-black'
+                }`}
+              >
+                Google Developer Group
+              </span>
+              <span
+                className={`text-[7px] md:text-[9px] font-bold tracking-widest uppercase leading-none mt-1 transition-colors duration-500 ${
+                  showDark ? 'text-white/60' : 'text-black/50'
+                }`}
+              >
+                VIT MUMBAI
+              </span>
+            </div>
+          </motion.div>
+        </Link>
+
+        {/* CENTER: NAV LINKS PILL */}
+        <div
+          ref={navContainerRef}
+          className={`hidden md:flex items-center p-1.5 rounded-full border transition-colors duration-500 relative ${glassClass}`}
         >
-          <Link to="/" aria-label="GDG VIT Mumbai Home">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="flex items-center gap-2 cursor-pointer group"
-            >
-              <div className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center transition-transform group-hover:scale-110">
-                <img
-                  src="/GDG-Sticker-Brackets.gif"
-                  alt="GDG Logo"
-                  className="w-full h-full object-contain"
-                  width={48}
-                  height={48}
-                />
-              </div>
-              <div className="flex flex-col">
-                <span
-                  className={`text-[15px] md:text-xl font-black tracking-tighter uppercase transition-colors duration-500 ${showDark ? 'text-white' : 'text-black'
-                    }`}
-                >
-                  Google Developer Group
-                </span>
-                <span
-                  className={`text-[7px] md:text-[9px] font-bold tracking-widest uppercase transition-colors duration-500 ${showDark ? 'text-white/30' : 'text-black/30'
-                    }`}
-                >
-                  VIT MUMBAI
-                </span>
-              </div>
-            </motion.div>
-          </Link>
+          {/* Active Link Blob Background */}
+          <motion.div
+            className="absolute inset-y-1.5 rounded-full z-0"
+            animate={{
+              left: blobStyle.left,
+              width: blobStyle.width,
+            }}
+            transition={{
+              type: 'spring',
+              stiffness: 400,
+              damping: 30,
+            }}
+            style={{
+              background: '#B6FF00',
+              boxShadow: '0 0 20px rgba(182, 255, 0, 0.4)',
+            }}
+          />
 
-          {/* Desktop Nav with Blob Indicator */}
-          <div ref={navContainerRef} className="hidden md:flex items-center gap-10 relative">
-            {/* Blob */}
-            <motion.div
-              className="absolute -bottom-2 h-[3px] rounded-full"
-              animate={{
-                left: blobStyle.left,
-                width: blobStyle.width,
-              }}
-              transition={{
-                type: 'spring',
-                stiffness: 400,
-                damping: 30,
-              }}
-              style={{
-                background: '#B6FF00',
-                boxShadow: '0 0 12px rgba(182, 255, 0, 0.6), 0 0 30px rgba(182, 255, 0, 0.2)',
-              }}
-            />
-
-            {navLinks.map((link, i) => (
+          {navLinks.map((link, i) => {
+            const isActive = location.pathname === link.href;
+            return (
               <Link
                 key={link.name}
                 to={link.href}
@@ -146,63 +152,57 @@ export default function GDGNavbar() {
                   setBlobStyle({ left: r.left - cr.left, width: r.width });
                 }}
                 onMouseLeave={updateBlobPosition}
-                className={`text-[13px] font-bold transition-all duration-300 uppercase tracking-[0.15em] relative focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#B6FF00] ${location.pathname === link.href
-                    ? showDark
-                      ? 'text-white'
-                      : 'text-black'
+                className={`relative z-10 px-6 py-2.5 text-[13px] font-bold transition-colors duration-300 uppercase tracking-[0.1em] focus-visible:outline-none ${
+                  isActive
+                    ? 'text-black'
                     : showDark
-                      ? 'text-white/40 hover:text-white/70'
-                      : 'text-black/30 hover:text-black/60'
-                  }`}
-                aria-current={location.pathname === link.href ? 'page' : undefined}
+                    ? 'text-white/70 hover:text-white'
+                    : 'text-black/60 hover:text-black'
+                }`}
+                aria-current={isActive ? 'page' : undefined}
               >
                 {link.name}
               </Link>
-            ))}
-          </div>
+            );
+          })}
+        </div>
 
-          <div className="hidden md:flex items-center gap-6">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`group flex items-center gap-2 text-[13px] font-bold px-7 py-3 rounded-2xl shadow-xl transition-all border focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B6FF00] ${showDark
-                  ? 'bg-white text-black border-white/10 hover:shadow-[#B6FF00]/20'
-                  : 'bg-black text-white border-black/10 hover:shadow-[#B6FF00]/10'
-                }`}
-            >
-              Join Us!
-              <ArrowRight className="w-4 h-4 text-[#B6FF00] transition-transform group-hover:translate-x-1" />
-            </motion.button>
-          </div>
+        {/* RIGHT: JOIN BUTTON & MOBILE MENU TOGGLE */}
+        <div className="flex items-center gap-3 md:gap-4 relative z-10">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className={`hidden md:flex items-center gap-2 text-[13px] font-bold px-6 py-3.5 rounded-full transition-all duration-500 border group ${glassClass} hover:border-[#B6FF00]/50`}
+          >
+            Join Us!
+            <ArrowRight className="w-4 h-4 text-[#B6FF00] transition-transform group-hover:translate-x-1" />
+          </motion.button>
 
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-expanded={isMobileMenuOpen}
-              aria-controls="mobile-menu"
-              aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
-              className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors duration-500 border ${showDark
-                  ? 'bg-white/5 border-white/10 text-white'
-                  : 'bg-black/5 border-black/10 text-black'
-                }`}
-            >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-        </motion.div>
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-menu"
+            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+            className={`md:hidden w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-500 border ${glassClass}`}
+          >
+            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
       </div>
 
+      {/* MOBILE MENU OVERLAY */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
             id="mobile-menu"
             role="dialog"
             aria-label="Mobile navigation"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className={`fixed inset-0 top-[80px] z-[90] backdrop-blur-2xl md:hidden px-6 pt-12 transition-colors duration-500 ${showDark ? 'bg-black/95 text-white' : 'bg-white/95 text-black'
-              }`}
+            initial={{ opacity: 0, y: -20, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: -20, filter: 'blur(10px)' }}
+            className={`fixed inset-0 top-[80px] z-[90] md:hidden px-6 pt-8 transition-colors duration-500 pointer-events-auto backdrop-blur-3xl ${
+              showDark ? 'bg-black/95 text-white' : 'bg-white/95 text-black'
+            }`}
           >
             <div className="flex flex-col gap-6">
               {navLinks.map((link) => {
@@ -211,18 +211,24 @@ export default function GDGNavbar() {
                   <Link
                     key={link.name}
                     to={link.href}
-                    className={`text-2xl font-black tracking-tighter uppercase flex items-center gap-3 focus-visible:outline-2 focus-visible:outline-[#B6FF00] ${isActive ? '' : 'opacity-40'
-                      }`}
+                    className={`text-3xl font-black tracking-tighter uppercase flex items-center gap-4 transition-opacity ${
+                      isActive ? 'opacity-100' : 'opacity-40 hover:opacity-70'
+                    }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    {isActive && <div className="w-3 h-3 bg-[#B6FF00] shadow-[0_0_10px_#B6FF00]" />}
+                    {isActive ? (
+                      <div className="w-3 h-3 rounded-full bg-[#B6FF00] shadow-[0_0_15px_#B6FF00]" />
+                    ) : (
+                      <div className="w-3 h-3" />
+                    )}
                     {link.name}
                   </Link>
                 );
               })}
               <button
-                className={`mt-4 w-full font-black py-5 rounded-3xl text-lg uppercase tracking-widest shadow-2xl transition-colors ${showDark ? 'bg-[#B6FF00] text-black' : 'bg-black text-white'
-                  }`}
+                className={`mt-8 w-full font-black py-4 rounded-full text-lg uppercase tracking-widest shadow-xl transition-colors ${
+                  showDark ? 'bg-[#B6FF00] text-black hover:bg-[#a1e600]' : 'bg-black text-white hover:bg-gray-800'
+                }`}
               >
                 Join Community
               </button>
