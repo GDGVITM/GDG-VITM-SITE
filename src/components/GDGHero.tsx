@@ -1,31 +1,41 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 import ScrambleText from './ScrambleText';
 import { WebcamPixelGrid } from '@/components/ui/webcam-pixel-grid';
 
 export default function Hero() {
+  const [webcamReady, setWebcamReady] = useState(false);
+  
+ useEffect(() => {
+    const timer = setTimeout(() => setWebcamReady(true), 1200);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden bg-black pt-20 sm:pt-24 md:pt-28">
 
       {/* Webcam Pixel Grid Background */}
-      <div className="absolute inset-0">
-        <WebcamPixelGrid
-          gridCols={60}
-          gridRows={40}
-          maxElevation={50}
-          motionSensitivity={0.25}
-          elevationSmoothing={0.2}
-          colorMode="webcam"
-          backgroundColor="#030303"
-          mirror={true}
-          gapRatio={0.05}
-          invertColors={false}
-          darken={0.6}
-          borderColor="#ffffff"
-          borderOpacity={0.06}
-          className="w-full h-full"
-        />
-      </div>
+      {/* <div className="absolute inset-0">
+        {webcamReady && (
+          <WebcamPixelGrid
+            gridCols={60}
+            gridRows={40}
+            maxElevation={50}
+            motionSensitivity={0.25}
+            elevationSmoothing={0.2}
+            colorMode="webcam"
+            backgroundColor="#030303"
+            mirror={true}
+            gapRatio={0.05}
+            invertColors={false}
+            darken={0.6}
+            borderColor="#ffffff"
+            borderOpacity={0.06}
+            className="w-full h-full"
+          />
+        )}
+      </div> */}
 
       {/* Gradient overlay for text readability */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60 pointer-events-none z-[1]" />

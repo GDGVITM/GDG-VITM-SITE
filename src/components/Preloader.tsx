@@ -31,53 +31,87 @@ export default function Preloader() {
   const intervalRef = useRef<ReturnType<typeof setInterval>>(null);
   const hasShown = useRef(false);
 
-  const completeLoading = useCallback(() => {
+  const completeLoading = () => {
     setProgress(100);
     setTimeout(() => setIsComplete(true), 400);
     setTimeout(() => {
       setIsVisible(false);
       sessionStorage.setItem('gdg-preloader-shown', 'true');
     }, 1000);
-  }, []);
+  };
 
-  useEffect(() => {
-    if (sessionStorage.getItem('gdg-preloader-shown')) {
-      setIsVisible(false);
-      return;
-    }
-    if (hasShown.current) return;
-    hasShown.current = true;
+  // useEffect(() => {
+  //   if (sessionStorage.getItem('gdg-preloader-shown')) {
+  //     setIsVisible(false);
+  //     return;
+  //   }
+  //   if (hasShown.current) return;
+  //   hasShown.current = true;
 
-    intervalRef.current = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 90) return prev;
-        const increment = prev < 60 ? 8 : 3;
-        return Math.min(prev + increment, 90);
-      });
-    }, 150);
+  //   intervalRef.current = setInterval(() => {
+  //     setProgress((prev) => {
+  //       if (prev >= 90) return prev;
+  //       const increment = prev < 60 ? 8 : 3;
+  //       return Math.min(prev + increment, 90);
+  //     });
+  //   }, 150);
 
-    const handleLoad = () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-      setTimeout(completeLoading, 500);
-    };
+  //   const handleLoad = () => {
+  //     if (intervalRef.current) clearInterval(intervalRef.current);
+  //     setTimeout(completeLoading, 500);
+  //   };
 
-    if (document.readyState === 'complete') {
-      handleLoad();
-    } else {
-      window.addEventListener('load', handleLoad);
-    }
+  //   if (document.readyState === 'complete') {
+  //     handleLoad();
+  //   } else {
+  //     window.addEventListener('load', handleLoad);
+  //   }
 
-    const safety = setTimeout(() => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-      completeLoading();
-    }, 6000);
+  //   const safety = setTimeout(() => {
+  //     if (intervalRef.current) clearInterval(intervalRef.current);
+  //     completeLoading();
+  //   }, 6000);
 
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-      window.removeEventListener('load', handleLoad);
-      clearTimeout(safety);
-    };
-  }, [completeLoading]);
+  //   return () => {
+  //     if (intervalRef.current) clearInterval(intervalRef.current);
+  //     window.removeEventListener('load', handleLoad);
+  //     clearTimeout(safety);
+  //   };
+  // }, [completeLoading]);
+useEffect(() => {
+  if (sessionStorage.getItem('gdg-preloader-shown')) {
+    setIsVisible(false);
+    return;
+  }
+
+  // Start progress interval
+  intervalRef.current = setInterval(() => {
+    setProgress((prev) => {
+      if (prev >= 90) return prev;
+      const increment = prev < 60 ? 8 : 3;
+      return Math.min(prev + increment, 90);
+    });
+  }, 150);
+
+  // In Vite, window 'load' often already fired — use a minimum display time instead
+  const minDisplay = setTimeout(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    completeLoading();
+  }, 2500);
+
+  // Safety fallback
+  const safety = setTimeout(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    completeLoading();
+  }, 6000);
+
+  return () => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    clearTimeout(minDisplay);
+    clearTimeout(safety);
+  };
+}, []); // ✅ empty deps — no completeLoading dependency needed
+
 
   const filledBlocks = Math.floor((progress / 100) * TOTAL_BLOCKS);
 
