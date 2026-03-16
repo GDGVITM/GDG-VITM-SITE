@@ -7,7 +7,7 @@ const navLinks = [
   { name: 'About Us', href: '/' },
   { name: 'Events', href: '/events' },
   { name: 'Gallery', href: '/gallery' },
-  { name: 'Spectrum', href: '/spectrum' },
+  { name: 'Spectrum', href: 'https://spectrum26.gdgvitm.tech/', isExternal: true },
 ];
 
 export default function GDGNavbar() {
@@ -76,7 +76,7 @@ export default function GDGNavbar() {
       aria-label="Main navigation"
     >
       <div className="max-w-[1440px] mx-auto px-4 md:px-[60px] flex items-center justify-between pointer-events-auto">
-        
+
         {/* LEFT: LOGO PILL */}
         <Link to="/" aria-label="GDG VIT Mumbai Home" className="relative z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B6FF00] rounded-full">
           <motion.div
@@ -94,16 +94,14 @@ export default function GDGNavbar() {
             </div>
             <div className="flex flex-col pr-3 md:pr-4">
               <span
-                className={`text-[12px] md:text-[14px] font-black tracking-tighter uppercase leading-none transition-colors duration-500 ${
-                  showDark ? 'text-white' : 'text-black'
-                }`}
+                className={`text-[12px] md:text-[14px] font-black tracking-tighter uppercase leading-none transition-colors duration-500 ${showDark ? 'text-white' : 'text-black'
+                  }`}
               >
                 Google Developer Group
               </span>
               <span
-                className={`text-[7px] md:text-[9px] font-bold tracking-widest uppercase leading-none mt-1 transition-colors duration-500 ${
-                  showDark ? 'text-white/60' : 'text-black/50'
-                }`}
+                className={`text-[7px] md:text-[9px] font-bold tracking-widest uppercase leading-none mt-1 transition-colors duration-500 ${showDark ? 'text-white/60' : 'text-black/50'
+                  }`}
               >
                 VIT MUMBAI
               </span>
@@ -152,13 +150,12 @@ export default function GDGNavbar() {
                   setBlobStyle({ left: r.left - cr.left, width: r.width });
                 }}
                 onMouseLeave={updateBlobPosition}
-                className={`relative z-10 px-6 py-2.5 text-[13px] font-bold transition-colors duration-300 uppercase tracking-[0.1em] focus-visible:outline-none ${
-                  isActive
+                className={`relative z-10 px-6 py-2.5 text-[13px] font-bold transition-colors duration-300 uppercase tracking-[0.1em] focus-visible:outline-none ${isActive
                     ? 'text-black'
                     : showDark
-                    ? 'text-white/70 hover:text-white'
-                    : 'text-black/60 hover:text-black'
-                }`}
+                      ? 'text-white/70 hover:text-white'
+                      : 'text-black/60 hover:text-black'
+                  }`}
                 aria-current={isActive ? 'page' : undefined}
               >
                 {link.name}
@@ -200,9 +197,8 @@ export default function GDGNavbar() {
             initial={{ opacity: 0, y: -20, filter: 'blur(10px)' }}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             exit={{ opacity: 0, y: -20, filter: 'blur(10px)' }}
-            className={`fixed inset-0 top-[80px] z-[90] md:hidden px-6 pt-8 transition-colors duration-500 pointer-events-auto backdrop-blur-3xl ${
-              showDark ? 'bg-black/95 text-white' : 'bg-white/95 text-black'
-            }`}
+            className={`fixed inset-0 top-[80px] z-[90] md:hidden px-6 pt-8 transition-colors duration-500 pointer-events-auto backdrop-blur-3xl ${showDark ? 'bg-black/95 text-white' : 'bg-white/95 text-black'
+              }`}
           >
             <div className="flex flex-col gap-6">
               {navLinks.map((link) => {
@@ -211,9 +207,8 @@ export default function GDGNavbar() {
                   <Link
                     key={link.name}
                     to={link.href}
-                    className={`text-3xl font-black tracking-tighter uppercase flex items-center gap-4 transition-opacity ${
-                      isActive ? 'opacity-100' : 'opacity-40 hover:opacity-70'
-                    }`}
+                    className={`text-3xl font-black tracking-tighter uppercase flex items-center gap-4 transition-opacity ${isActive ? 'opacity-100' : 'opacity-40 hover:opacity-70'
+                      }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {isActive ? (
@@ -226,9 +221,8 @@ export default function GDGNavbar() {
                 );
               })}
               <button
-                className={`mt-8 w-full font-black py-4 rounded-full text-lg uppercase tracking-widest shadow-xl transition-colors ${
-                  showDark ? 'bg-[#B6FF00] text-black hover:bg-[#a1e600]' : 'bg-black text-white hover:bg-gray-800'
-                }`}
+                className={`mt-8 w-full font-black py-4 rounded-full text-lg uppercase tracking-widest shadow-xl transition-colors ${showDark ? 'bg-[#B6FF00] text-black hover:bg-[#a1e600]' : 'bg-black text-white hover:bg-gray-800'
+                  }`}
               >
                 Join Community
               </button>
