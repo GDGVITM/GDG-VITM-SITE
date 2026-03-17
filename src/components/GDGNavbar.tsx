@@ -7,7 +7,7 @@ const navLinks = [
   { name: 'About Us', href: '/' },
   { name: 'Events', href: '/events' },
   { name: 'Gallery', href: '/gallery' },
-  { name: 'Spectrum', href: 'https://spectrum26.gdgvitm.tech/', isExternal: true },
+  { name: 'Spectrum', href: 'https://spectrum26.gdgvitm.tech/', target: '_blank' },
 ];
 
 export default function GDGNavbar() {
@@ -134,28 +134,44 @@ export default function GDGNavbar() {
 
           {navLinks.map((link, i) => {
             const isActive = location.pathname === link.href;
-            return (
+            const commonClass = `relative z-10 px-6 py-2.5 text-[13px] font-bold transition-colors duration-300 uppercase tracking-[0.1em] focus-visible:outline-none ${isActive
+              ? 'text-black'
+              : showDark
+                ? 'text-white/70 hover:text-white'
+                : 'text-black/60 hover:text-black'
+              }`;
+            const commonEvents = {
+              onMouseEnter: () => {
+                const el = linkRefs.current[i];
+                const container = navContainerRef.current;
+                if (!el || !container) return;
+                const r = el.getBoundingClientRect();
+                const cr = container.getBoundingClientRect();
+                setBlobStyle({ left: r.left - cr.left, width: r.width });
+              },
+              onMouseLeave: updateBlobPosition,
+            };
+            return link.target ? (
+              <a
+                key={link.name}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                ref={(el) => { linkRefs.current[i] = el; }}
+                {...commonEvents}
+                className={commonClass}
+              >
+                {link.name}
+              </a>
+            ) : (
               <Link
                 key={link.name}
                 to={link.href}
                 ref={(el) => {
                   linkRefs.current[i] = el;
                 }}
-                onMouseEnter={() => {
-                  const el = linkRefs.current[i];
-                  const container = navContainerRef.current;
-                  if (!el || !container) return;
-                  const r = el.getBoundingClientRect();
-                  const cr = container.getBoundingClientRect();
-                  setBlobStyle({ left: r.left - cr.left, width: r.width });
-                }}
-                onMouseLeave={updateBlobPosition}
-                className={`relative z-10 px-6 py-2.5 text-[13px] font-bold transition-colors duration-300 uppercase tracking-[0.1em] focus-visible:outline-none ${isActive
-                    ? 'text-black'
-                    : showDark
-                      ? 'text-white/70 hover:text-white'
-                      : 'text-black/60 hover:text-black'
-                  }`}
+                {...commonEvents}
+                className={commonClass}
                 aria-current={isActive ? 'page' : undefined}
               >
                 {link.name}
@@ -203,20 +219,36 @@ export default function GDGNavbar() {
             <div className="flex flex-col gap-6">
               {navLinks.map((link) => {
                 const isActive = location.pathname === link.href;
-                return (
-                  <Link
-                    key={link.name}
-                    to={link.href}
-                    className={`text-3xl font-black tracking-tighter uppercase flex items-center gap-4 transition-opacity ${isActive ? 'opacity-100' : 'opacity-40 hover:opacity-70'
-                      }`}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
+                const mobileClass = `text-3xl font-black tracking-tighter uppercase flex items-center gap-4 transition-opacity ${isActive ? 'opacity-100' : 'opacity-40 hover:opacity-70'}`;
+                const linkContent = (
+                  <>
                     {isActive ? (
                       <div className="w-3 h-3 rounded-full bg-[#B6FF00] shadow-[0_0_15px_#B6FF00]" />
                     ) : (
                       <div className="w-3 h-3" />
                     )}
                     {link.name}
+                  </>
+                );
+                return link.target ? (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={mobileClass}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {linkContent}
+                  </a>
+                ) : (
+                  <Link
+                    key={link.name}
+                    to={link.href}
+                    className={mobileClass}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {linkContent}
                   </Link>
                 );
               })}
