@@ -121,15 +121,26 @@ export const WebcamPixelGrid: React.FC<WebcamPixelGridProps> = ({
     }
   }, [onWebcamError, onWebcamReady]);
 
-  useEffect(() => {
-    requestCameraAccess();
+  // useEffect(() => {
+  //   requestCameraAccess();
 
-    return () => {
-      if (streamRef.current) {
-        streamRef.current.getTracks().forEach((track) => track.stop());
-      }
-    };
-  }, [requestCameraAccess]);
+  //   return () => {
+  //     if (streamRef.current) {
+  //       streamRef.current.getTracks().forEach((track) => track.stop());
+  //     }
+  //   };
+  // }, [requestCameraAccess]);
+
+  useEffect(() => {
+  // Small defer to avoid blocking window 'load' event
+  const timer = setTimeout(() => requestCameraAccess(), 300);
+  return () => {
+    clearTimeout(timer);
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach((track) => track.stop());
+    }
+  };
+}, [requestCameraAccess]);
 
   const render = useCallback(() => {
     const video = videoRef.current;
