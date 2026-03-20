@@ -1,4 +1,4 @@
-import { useRef, useMemo } from 'react';
+   import { useRef, useMemo } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'motion/react';
 import PageTransition from '../components/PageTransition';
 
@@ -9,21 +9,62 @@ interface EventData {
   type: string;
   desc: string;
   status: 'COMPLETED' | 'ACTIVE' | 'UPCOMING' | 'LOCKED';
+  image?: string; // Added image property
 }
 
 const EVENTS_DATA: EventData[] = [
-  { id: '01', title: 'Neural Hack', date: 'JAN 12', type: 'WORKSHOP', desc: 'Decoding deep-sea neural networks.', status: 'COMPLETED' },
-  { id: '02', title: 'Abyssal Sync', date: 'FEB 05', type: 'MEETUP', desc: 'Connecting developers in the trench.', status: 'COMPLETED' },
-  { id: '03', title: 'Spectrum v1', date: 'MAR 20', type: 'FESTIVAL', desc: 'The flagship pixel-art experience.', status: 'ACTIVE' },
-  { id: '04', title: 'Logic Gate', date: 'APR 15', type: 'HACKATHON', desc: 'Survival of the fastest coders.', status: 'UPCOMING' },
-  { id: '05', title: 'Redstone UI', date: 'MAY 02', type: 'SEMINAR', desc: 'Advanced automation techniques.', status: 'LOCKED' },
-  { id: '06', title: 'Void Script', date: 'JUN 18', type: 'SPRINT', desc: 'Optimizing for zero-latency systems.', status: 'LOCKED' },
-  { id: '07', title: 'Apex Build', date: 'JUL 22', type: 'GRAND_FINALE', desc: 'The final evolution of the sector.', status: 'LOCKED' },
-];
+  { 
+    id: '01', 
+    title: 'WINTER OF CODE 5.0', 
+    date: 'DEC 15', 
+    type: 'OPEN SOURCE', 
+    desc: 'Open source contribution program', 
+    status: 'COMPLETED',
+    image: '/events/WOC_1.jpeg' // Ensure these paths exist in your public folder
+  },
+  { 
+    id: '02', 
+    title: 'TECHSPRINT', 
+    date: 'JAN 28', 
+    type: 'HACKATHON', 
+    desc: 'The ultimate on-campus hackathon', 
+    status: 'COMPLETED',
+    image: '/events/Tech_Sprint_2.jpeg'
+  },
+  { 
+    id: '03', 
+    title: 'GSOC', 
+    date: 'FEB 6', 
+    type: 'GUIDANCE', 
+    desc: 'Strategy session for Google Summer of Code', 
+    status: 'COMPLETED',
+    image: '/events/GSOC_3.jpeg'
+  },
+  { 
+    id: '04', 
+    title: 'AGENTIC AI', 
+    date: 'FEB 12-13', 
+    type: 'WORKSHOP', 
+    desc: 'Introduction to AI-powered development', 
+    status: 'COMPLETED',
+    image: '/events/AI_5.jpeg'
+  },
+  { 
+    id: '05', 
+    title: 'BREAK THE LOOP', 
+    date: 'MARCH 6', 
+    type: 'CODING', 
+    desc: 'Women-only team based technical challenge', 
+    status: 'COMPLETED',
+    image: '/events/Women_6.jpeg'
+  },
+  { id: '06', title: '', date: 'APR 1-4', type: 'FLAGSHIP EVENT', desc: 'A week full of amazing challenges', status: 'UPCOMING', image:'/events/spectrum.jpeg' },
+]
+  
 
 interface EventCardProps {
   event: EventData;
-  progress: ReturnType<typeof useSpring>;
+  progress: any;
   index: number;
   total: number;
 }
@@ -43,43 +84,71 @@ function EventCard({ event, progress, index, total }: EventCardProps) {
   return (
     <motion.div
       style={{ scale, opacity, borderColor: borderGlow }}
-      className="relative min-w-[80vw] md:min-w-[25vw] h-[55vh] flex flex-col items-center justify-center border-2 border-transparent"
+      className="relative min-w-[80vw] md:min-w-[25vw] h-[55vh] flex flex-col items-center justify-center border-2 border-transparent group"
     >
       <div className={`relative w-full h-full p-1 border-4 transition-all duration-500
         ${event.status === 'LOCKED' ? 'border-white/5 bg-white/5' : 'border-white/10 bg-[#111]'}`}>
-        <div className="h-full w-full bg-[#0a0a0a] p-8 flex flex-col justify-between relative overflow-hidden">
-          <div className="z-10">
-            <div className="flex justify-between items-center">
-              <span className="font-mono text-[10px] text-[#B6FF00] bg-[#B6FF00]/10 px-2 py-1 uppercase tracking-tighter">
-                ID_{event.id}
+        
+        <div className="h-full w-full bg-[#0a0a0a] p-6 flex flex-col justify-between relative overflow-hidden">
+          
+          {/* POSTER IMAGE */}
+          {event.image && event.status !== 'LOCKED' && (
+            <>
+              <img 
+                src={event.image} 
+                alt="" 
+                className="absolute inset-0 w-full h-full object-cover opacity-60 transition-opacity duration-500 group-hover:opacity-80"
+              />
+              {/* Stronger bottom gradient to make the new title position pop */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-[#0a0a0a]/80 z-0" />
+            </>
+          )}
+
+          {/* TOP SECTION: Date and Status */}
+          <div className="z-10 flex justify-between items-start">
+            <div className="flex flex-col">
+              <span className="text-xl md:text-2xl font-black italic text-[#B6FF00] tracking-tighter drop-shadow-md">
+                {event.date}
               </span>
-              <span className={`font-mono text-[9px] tracking-[0.2em] uppercase
-                ${event.status === 'ACTIVE' ? 'text-[#B6FF00]' : 'text-white/20'}`}>
-                {event.status}
-              </span>
+              <div className="h-1 w-8 bg-[#B6FF00] mt-1 opacity-70" />
             </div>
-            <h2 className={`text-4xl md:text-5xl font-black uppercase italic tracking-tighter mt-6 leading-[0.85]
-              ${event.status === 'LOCKED' ? 'text-white/10' : 'text-white'}`}>
-              {event.title}
-            </h2>
-            <div className="h-1 w-12 bg-[#B6FF00] mt-4 opacity-50" />
+            
+            <span className={`font-mono text-[9px] tracking-[0.2em] uppercase mt-1
+              ${event.status === 'ACTIVE' ? 'text-[#B6FF00]' : 'text-white/40'}`}>
+              {event.status}
+            </span>
           </div>
 
+          {/* BOTTOM SECTION: Title and Description */}
           <div className="z-10">
-            <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest leading-relaxed mb-8">
-              {event.status === 'LOCKED' ? '?? RESTRICTED ??' : event.desc}
-            </p>
-            <div className="flex items-end justify-between">
-              <span className="text-2xl md:text-3xl font-black italic text-white tracking-tighter">{event.date}</span>
-              <button
-                disabled={event.status === 'LOCKED'}
-                aria-disabled={event.status === 'LOCKED'}
-                className="px-4 py-2 bg-white text-black font-bold text-[10px] uppercase hover:bg-[#B6FF00] transition-colors disabled:opacity-5 disabled:cursor-not-allowed"
-              >
-                Access
-              </button>
+            <h2 className={`text-2xl md:text-3xl font-black uppercase italic tracking-tighter leading-[0.9]
+    /* BLACK OUTLINE: Using drop-shadow for a clean edge */
+    filter drop-shadow-[1px_1px_0px_rgba(0,0,0,1)] drop-shadow-[-1px_-1px_0px_rgba(0,0,0,1)]
+    ${event.status === 'LOCKED' ? 'text-white/10' : 'text-white'}`}>
+    {event.title}
+  </h2>
+            
+           <p className="font-mono text-[9px] text-white/90 uppercase tracking-widest leading-relaxed mt-3 mb-4 max-w-[90%]
+    /* BLACK OUTLINE: Helps small text pop against busy posters */
+    filter drop-shadow-[0.5px_0.5px_0px_rgba(0,0,0,1)] drop-shadow-[-0.5px_-0.5px_0px_rgba(0,0,0,1)]">
+    {event.status === 'LOCKED' ? '?? RESTRICTED ??' : event.desc}
+  </p>
+
+            {/* BUTTON: Only shows if NOT Completed and NOT Locked */}
+            <div className="flex justify-end">
+              {event.status !== 'COMPLETED' && event.status !== 'LOCKED' && (
+                <a
+  href="https://spectrum26.gdgvitm.tech/"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="px-4 py-2 bg-white text-black font-bold text-[10px] uppercase hover:bg-[#B6FF00] transition-colors shadow-[3px_3px_0px_#B6FF00] inline-block"
+>
+  Access
+</a>
+              )}
             </div>
           </div>
+
         </div>
       </div>
     </motion.div>
@@ -135,6 +204,7 @@ export default function Events() {
       <section ref={containerRef} className="relative h-[700vh] bg-[#050505]" aria-label="Events timeline">
         <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center">
 
+          {/* GRID BACKGROUND */}
           <div
             className="absolute inset-0 opacity-10 pointer-events-none"
             aria-hidden="true"
@@ -144,6 +214,7 @@ export default function Events() {
             }}
           />
 
+          {/* BACKGROUND ANIMATIONS */}
           <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
             {blockConfigs.map((block, i) => (
               <motion.div
@@ -154,7 +225,6 @@ export default function Events() {
                   height: block.height + 'px',
                   left: block.left,
                   top: block.top,
-                  boxShadow: '0 0 40px rgba(182, 255, 0, 0.05)',
                 }}
                 animate={{
                   y: [0, -100, 0],
@@ -163,34 +233,8 @@ export default function Events() {
                   opacity: [0.1, 0.2, 0.1],
                 }}
                 transition={{ duration: block.duration, repeat: Infinity, ease: "linear" }}
-              >
-                <div className="absolute top-4 left-4 w-12 h-12 border-t-2 border-l-2 border-[#B6FF00]/20" />
-                <div className="absolute bottom-4 right-4 w-8 h-8 bg-[#B6FF00]/10" />
-              </motion.div>
+              />
             ))}
-
-            <div className="absolute inset-0">
-              <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#B6FF00]/10 blur-[150px] rounded-full animate-pulse" />
-              <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-[#B6FF00]/5 blur-[200px] rounded-full" />
-            </div>
-
-            <div className="absolute inset-0 opacity-20">
-              {[...Array(15)].map((_, i) => (
-                <motion.div
-                  key={`column-${i}`}
-                  initial={{ y: -1000 }}
-                  animate={{ y: 1000 }}
-                  transition={{ duration: 25, repeat: Infinity, ease: "linear", delay: i * -2 }}
-                  className="absolute flex flex-col font-mono text-[14px] text-[#B6FF00]"
-                  style={{ left: `${(i * 100) / 15}%` }}
-                >
-                  {["0", "1", "[]", "::", "++"].map((char, j) => (
-                    <span key={j} className="mb-4 opacity-20">{char}</span>
-                  ))}
-                  <span className="text-white font-bold shadow-[0_0_15px_#B6FF00]">&#9632;</span>
-                </motion.div>
-              ))}
-            </div>
 
             {orbConfigs.map((orb, i) => (
               <motion.div
@@ -201,56 +245,9 @@ export default function Events() {
                 transition={{ duration: orb.duration, repeat: Infinity, delay: orb.delay }}
               />
             ))}
-
-            <motion.div
-              style={{ x: grassX }}
-              className="absolute bottom-[-10vh] left-0 w-[150vw] h-[30vh] z-[-10] pointer-events-none opacity-10"
-            >
-              {grassConfigs.map((grass, i) => (
-                <div
-                  key={`grass-${i}`}
-                  className="absolute bottom-0 bg-white"
-                  style={{
-                    width: '40px',
-                    height: grass.height + 'px',
-                    left: grass.left,
-                    clipPath: 'polygon(50% 0%, 100% 20%, 80% 100%, 20% 100%, 0% 20%)',
-                    transform: `perspective(500px) rotateX(${grass.rotateX}deg)`,
-                  }}
-                />
-              ))}
-            </motion.div>
-
-            <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-30">
-              {[...Array(3)].map((_, i) => (
-                <motion.div
-                  key={`phantom-${i}`}
-                  className="absolute border-2 border-[#B6FF00]/30 shadow-[0_0_30px_#B6FF00]"
-                  style={{
-                    width: '180px',
-                    height: '60px',
-                    left: `${-20 + i * 15}%`,
-                    top: `${15 + i * 20}%`,
-                    background: 'linear-gradient(90deg, #0a0a20 0%, #1e3a8a 100%)',
-                    clipPath: 'polygon(0% 20%, 30% 0%, 70% 0%, 100% 20%, 90% 100%, 10% 100%)',
-                  }}
-                  animate={{
-                    x: ['-10vw', '110vw'],
-                    y: [0, 50, -50, 0],
-                    rotate: [0, 5, -5, 0],
-                    opacity: [0, 0.6, 0.6, 0],
-                  }}
-                  transition={{ duration: 20 + i * 5, repeat: Infinity, ease: "easeInOut", delay: i * 8 }}
-                >
-                  <div className="absolute top-4 right-6 w-3 h-3 bg-white shadow-[0_0_10px_white]" />
-                  <div className="absolute top-4 right-10 w-3 h-3 bg-white shadow-[0_0_10px_white]" />
-                </motion.div>
-              ))}
-            </div>
-
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(182,255,0,0.08)_0%,transparent_70%)]" />
           </div>
 
+          {/* HORIZONTAL SCROLL CARDS */}
           <motion.div
             style={{ x }}
             className="flex gap-[5vw] px-[10vw] items-center"
@@ -266,6 +263,7 @@ export default function Events() {
             ))}
           </motion.div>
 
+          {/* CRT / SCANLINE OVERLAY */}
           <div
             className="absolute inset-0 pointer-events-none opacity-[0.07] z-[60]"
             aria-hidden="true"
@@ -274,7 +272,29 @@ export default function Events() {
               backgroundSize: '100% 4px, 3px 100%',
             }}
           />
+
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 2, duration: 1 }}
+            className="absolute bottom-10 left-1/2 -translate-x-1/2 z-[70] flex flex-col items-center gap-2 pointer-events-none"
+          >
+            <span className="font-mono text-[10px] text-[#B6FF00] tracking-[0.3em] uppercase opacity-50">
+              Scroll to Explore
+            </span>
+            <motion.div
+              animate={{ y: [0, 8, 0], opacity: [0.3, 1, 0.3] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              className="flex flex-col items-center"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#B6FF00" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M7 13l5 5 5-5M7 6l5 5 5-5" />
+              </svg>
+            </motion.div>
+          </motion.div>
         </div>
+
+        
       </section>
     </PageTransition>
   );
