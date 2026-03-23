@@ -16,7 +16,7 @@ export default function Hero() {
     <div className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden bg-black pt-20 sm:pt-24 md:pt-28">
 
       {/* Webcam Pixel Grid Background */}
-      {/* <div className="absolute inset-0">
+      <div className="absolute inset-0">
         {webcamReady && (
           <WebcamPixelGrid
             gridCols={60}
@@ -35,7 +35,7 @@ export default function Hero() {
             className="w-full h-full"
           />
         )}
-      </div> */}
+      </div>
 
       {/* Gradient overlay for text readability */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60 pointer-events-none z-[1]" />
