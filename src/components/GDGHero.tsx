@@ -6,6 +6,7 @@ import { WebcamPixelGrid } from '@/components/ui/webcam-pixel-grid';
 
 export default function Hero() {
   const [webcamReady, setWebcamReady] = useState(false);
+  const [cameraReady, setCameraReady] = useState(false);
   
  useEffect(() => {
     const timer = setTimeout(() => setWebcamReady(true), 1200);
@@ -33,6 +34,8 @@ export default function Hero() {
             borderColor="#ffffff"
             borderOpacity={0.06}
             className="w-full h-full"
+            onWebcamReady={() => setCameraReady(true)}
+            onWebcamError={() => setCameraReady(false)}
           />
         )}
       </div>
@@ -138,8 +141,15 @@ export default function Hero() {
               </motion.div>
             </motion.div>
 
-            {/* CENTER: Empty area for layout balance */}
-            <div className="w-full md:w-[40%] flex justify-center min-h-[clamp(200px,26vw,300px)]">
+            {/* CENTER: Dino image (visible when camera off, hidden when camera on) */}
+            <div className="w-full md:w-[40%] flex justify-center min-h-[clamp(200px,26vw,300px)] items-center">
+              {!cameraReady && (
+                <img
+                  src="/google_dino.png"
+                  alt="Google Dino"
+                  className="w-[clamp(120px,16vw,200px)] h-auto object-contain opacity-80"
+                />
+              )}
             </div>
 
             {/* RIGHT: right arrows above + VIT / MUMBAI */}
