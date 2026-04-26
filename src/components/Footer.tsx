@@ -10,10 +10,10 @@ const navLinks = [
 ];
 
 const socials = [
-    { name: 'Instagram', icon: <Instagram className="w-5 h-5" />, href: '#' },
-    { name: 'LinkedIn', icon: <Linkedin className="w-5 h-5" />, href: '#' },
-    { name: 'Twitter', icon: <Twitter className="w-5 h-5" />, href: '#' },
-    { name: 'Github', icon: <Github className="w-5 h-5" />, href: '#' },
+    { name: 'Instagram', icon: <Instagram className="w-5 h-5" />, href: 'https://www.instagram.com/gdg_vit' },
+    { name: 'LinkedIn', icon: <Linkedin className="w-5 h-5" />, href: 'https://www.linkedin.com/company/google-developer-groups-vit-mumbai/' },
+    { name: 'Twitter', icon: <Twitter className="w-5 h-5" />, href: 'https://x.com/gdgvit' },
+    { name: 'Github', icon: <Github className="w-5 h-5" />, href: 'https://github.com/GDGVITM' },
 ];
 
 function PixelCorner({ pos }: { pos: 'tl' | 'tr' | 'bl' | 'br' }) {
